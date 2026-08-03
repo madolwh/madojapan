@@ -1,12 +1,12 @@
 @import "tailwindcss";
-@import "@fontsource-variable/archivo/wdth.css";
 
 @theme {
-  /* Archivo carries a width axis (62%–125%), which is what does the
-     modernist display work. Japanese fallbacks are appended so CJK inside
-     English prose still renders with Japanese glyph shapes. */
+  /* System stack — no webfont. Real Helvetica Neue on Apple; Windows falls
+     back to Arial (near-identical metrics, so layout holds), Android to
+     Roboto. Japanese fallbacks are appended so CJK inside English prose
+     still renders with Japanese glyph shapes. */
   --font-sans:
-    "Archivo Variable", Helvetica, Arial, "Hiragino Kaku Gothic ProN",
+    "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN",
     "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
   --font-jp:
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP",
@@ -29,7 +29,8 @@
   color: var(--color-ink);
 }
 
-/* Japanese gets a gothic, matched to Archivo's grotesque skeleton. */
+/* Japanese gets a gothic — the structural counterpart to a Latin grotesque,
+   so the two sit at the same optical weight. */
 :lang(ja) {
   font-family: var(--font-jp);
 }
@@ -43,9 +44,11 @@ ruby {
 
 /* Uppercase modernist display setting. Applied per element, never as a
    blanket heading rule — see .brand below. */
+/* No font-stretch here: Helvetica Neue ships no expanded width, so the
+   property would either do nothing or invite a synthesised stretch. The
+   modernist read now comes from weight, case and tight tracking alone. */
 .display {
   text-transform: uppercase;
-  font-stretch: 118%;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.05;
