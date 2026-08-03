@@ -1,0 +1,126 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Search"
+  description="Search every lesson by Japanese term, reading, romaji or meaning.">
+  <div class="mx-auto max-w-2xl px-5">
+    <h1 class="display text-3xl">Search</h1>
+
+    <form data-search-form role="search" class="mt-6" onsubmit="return false">
+      <label for="q" class="text-xs text-muted">
+        Try a Japanese term, its romaji, or an English word
+      </label>
+      <input
+        id="q"
+        type="search"
+        autocomplete="off"
+        data-search-input
+        placeholder="草, kusa, grass…"
+        class="mt-2 w-full border border-rule px-3 py-3 text-base"
+      />
+    </form>
+
+    <p data-status class="mt-4 text-xs text-muted" aria-live="polite"></p>
+
+    <ul data-results class="mt-2 divide-y divide-rule"></ul>
+
+    <noscript>
+      <p class="mt-6 text-sm text-muted">
+        Search needs JavaScript. You can still
+        <a href="/lessons" class="border-b border-alert text-alert">browse all lessons</a>.
+      </p>
+    </noscript>
+  </div>
+</BaseLayout>
+
+<script>
+  interface PagefindResultData {
+    url: string;
+    excerpt: string;
+    meta: Record<string, string>;
+  }
+
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const results = document.querySelector<HTMLUListElement>('[data-results]');
+  const status = document.querySelector<HTMLElement>('[data-status]');
+
+  if (input && results && status) {
+    let pagefind: any = null;
+    let loadFailed = false;
+
+    const load = async () => {
+      if (pagefind || loadFailed) return;
+      try {
+        // The index is produced by `pagefind --site dist` after Astro builds,
+        // so it does not exist at bundle time. new Function keeps the import
+        // opaque to Vite — passing a variable to import() still gets rewritten
+        // and leaves an unresolved __VITE_PRELOAD__ in the output.
+        pagefind = await new Function('return import("/pagefind/pagefind.js")')();
+        await pagefind.options({ excerptLength: 20 });
+      } catch (error) {
+        loadFailed = true;
+        console.error('[search] could not load the Pagefind index', error);
+        status.textContent =
+          'Search is unavailable here — the index is generated at build time, so it only works on a built site.';
+      }
+    };
+
+    const escape = (value: string) =>
+      value.replace(
+        /[&<>"']/g,
+        (c) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
+      );
+
+    // Searches resolve independently, so a slower earlier query could
+    // overwrite a newer one. Only the most recent request may paint.
+    let latest = 0;
+
+    const run = async (query: string) => {
+      const ticket = (latest += 1);
+
+      if (!query.trim()) {
+        results.innerHTML = '';
+        status.textContent = '';
+        return;
+      }
+
+      await load();
+      if (!pagefind || ticket !== latest) return;
+
+      status.textContent = 'Searching…';
+      const search = await pagefind.search(query);
+      const data: PagefindResultData[] = await Promise.all(
+        search.results.slice(0, 10).map((r: any) => r.data()),
+      );
+      if (ticket !== latest) return;
+
+      status.textContent = `${data.length} ${data.length === 1 ? 'result' : 'results'}`;
+      results.innerHTML = data
+        .map((item) => {
+          const category = item.meta.category
+            ? `<span class="bg-tag px-2 py-0.5 text-xs">${escape(item.meta.category)}</span>`
+            : '';
+          return `<li>
+            <a href="${escape(item.url)}" class="block py-5">
+              ${category}
+              <h2 class="mt-3 text-base font-bold">${escape(item.meta.title ?? '')}</h2>
+              <p class="mt-1 text-sm text-muted">${item.excerpt}</p>
+            </a>
+          </li>`;
+        })
+        .join('');
+    };
+
+    let timer: number | undefined;
+    input.addEventListener('input', () => {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(() => run(input.value), 150);
+    });
+
+    // Warm the index on first focus so the first keystroke feels instant.
+    input.addEventListener('focus', load, { once: true });
+  }
+</script>

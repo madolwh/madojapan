@@ -67,6 +67,13 @@ ruby {
   text-transform: lowercase !important;
 }
 
+/* Search hit highlighting. Pagefind wraps matches in <mark>, which browsers
+   default to their own yellow — use the marker colour instead. */
+mark {
+  background-color: var(--color-marker);
+  color: var(--color-ink);
+}
+
 /* Filter chips. The label is deliberately small, but min-height keeps the
    hit area at 44px — below that they are unreliable to tap on a phone. */
 .chip {

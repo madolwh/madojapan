@@ -33,7 +33,11 @@ if (missing.length > 0) {
 
 <BaseLayout title={title} description={summary}>
   <div class="mx-auto max-w-2xl px-5">
-    <article>
+    {/* Only elements inside data-pagefind-body get indexed, which keeps the
+        header, footer and nav out of every search result. */}
+    <article data-pagefind-body>
+      <span data-pagefind-meta={`category:${category}`} hidden></span>
+      <span data-pagefind-meta={`level:${level}`} hidden></span>
       <div class="flex gap-2">
         <span class="bg-tag px-2 py-1 text-xs tracking-wide">{category}</span>
         <span class="border border-rule px-2 py-1 text-xs tracking-wide text-muted">{level}</span>
