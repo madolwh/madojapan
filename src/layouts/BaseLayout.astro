@@ -18,8 +18,9 @@ const {
   publishedAt,
 } = Astro.props;
 
-// Brand is lowercase everywhere, including the tab title.
-const pageTitle = `${title} — madojapan`;
+// Brand is lowercase everywhere, including the tab title. The home page is
+// already titled with the brand, so it does not get the suffix twice.
+const pageTitle = title === 'madojapan' ? title : `${title} — madojapan`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
