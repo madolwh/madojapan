@@ -8,9 +8,10 @@ home for that material.
 
 **The name:** always lowercase — `madojapan`, never "MadoJapan" or "Madojapan".
 This applies everywhere: logo, page titles, meta tags, headings, body copy.
-窓 (mado) means "window" in Japanese, so madojapan = a window into Japan.
-The kanji 窓 is available as a mark if the design calls for one — but use it
-with restraint, and never alongside cherry blossoms or torii gates.
+Treat the name as a word in its own right. Do **not** build the brand on the
+窓 ("window") reading — no 窓 mark, no window or aperture metaphor in the
+design, no "a window into Japan" copy. Also never cherry blossoms or torii
+gates.
 
 **Audience:** anyone learning Japanese, globally. Written in English.
 The distinctive angle is Singlish/Chinese-speaker comparisons — that's the

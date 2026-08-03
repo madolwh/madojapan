@@ -1,28 +1,66 @@
 @import "tailwindcss";
+@import "@fontsource-variable/archivo/wdth.css";
 
-/* Functional, not a design decision. Without a Japanese-capable family in the
-   stack, a browser can render CJK glyphs using Chinese font shapes — which on
-   this site would actively undermine the lessons. System fonts only; no
-   webfonts, since the real typeface pairing is still an open decision. */
 @theme {
+  /* Archivo carries a width axis (62%–125%), which is what does the
+     modernist display work. Japanese fallbacks are appended so CJK inside
+     English prose still renders with Japanese glyph shapes. */
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Archivo Variable", Helvetica, Arial, "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+  --font-jp:
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP",
     Meiryo, sans-serif;
+
+  --color-paper: #ffffff;
+  --color-ink: #0a0a0a;
+  --color-muted: #71717a;
+  --color-rule: #e4e4e7;
+  --color-alert: #d90000;
+  --color-marker: #ffea93;
+  --color-tag: #8db355;
 }
 
-/* Light only — the site does not follow the OS dark preference. color-scheme
-   matters as much as the background here: it keeps native UI (the <audio>
-   player, scrollbars, focus rings) light instead of inverted. Placeholder
-   values; the real palette is still an open decision. */
+/* Light only — never follows the OS dark preference. color-scheme also keeps
+   native UI (the <audio> player, scrollbars, focus rings) light. */
 :root {
   color-scheme: light;
-  background-color: #ffffff;
-  color: #111111;
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+/* Japanese gets a gothic, matched to Archivo's grotesque skeleton. */
+:lang(ja) {
+  font-family: var(--font-jp);
+}
+
+/* By default a browser distributes furigana across the full width of its
+   base, which pulls the kana to the outer edges when the base is padded.
+   Centre it instead so the reading sits as one word over the character. */
+ruby {
+  ruby-align: center;
+}
+
+/* Uppercase modernist display setting. Applied per element, never as a
+   blanket heading rule — see .brand below. */
+.display {
+  text-transform: uppercase;
+  font-stretch: 118%;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* Locked constraint: the brand is lowercase everywhere. !important is
+   deliberate — it has to survive being nested inside .display or any future
+   uppercase/capitalize utility. This is the one exception to the display
+   treatment above. */
+.brand {
+  text-transform: lowercase !important;
 }
 
 /* Markdown bodies render raw <p> tags with no Tailwind classes to hook.
-   Paragraph rhythm only — not a type scale, and not a design system. */
+   Paragraph rhythm only — not a type scale. */
 .lesson-body p + p {
   margin-top: 1rem;
 }

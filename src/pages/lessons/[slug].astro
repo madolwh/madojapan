@@ -16,7 +16,7 @@ export async function getStaticPaths() {
 }
 
 const { lesson } = Astro.props;
-const { title, summary, videoUrl, audioUrl, vocab } = lesson.data;
+const { title, summary, category, level, videoUrl, audioUrl, vocab } = lesson.data;
 const { Content } = await render(lesson);
 
 // reference() validates shape but not existence — a typo'd slug resolves to
@@ -32,67 +32,89 @@ if (missing.length > 0) {
 ---
 
 <BaseLayout title={title} description={summary}>
-  <article class="mx-auto max-w-2xl px-5 py-10">
-    <h1 class="text-3xl font-bold">{title}</h1>
-    <p class="mt-3 text-lg">{summary}</p>
+  <div class="mx-auto max-w-2xl px-5 py-8">
+    {/* Placeholder wordmark — the real header lands with the index. */}
+    <a href="/" class="brand text-lg font-bold tracking-tight">madojapan</a>
 
-    {
-      audioUrl && (
-        <audio controls preload="none" src={audioUrl} class="mt-6 w-full">
-          Your browser does not support the audio element.
-        </audio>
-      )
-    }
+    <article class="mt-10">
+      <div class="flex gap-2">
+        <span class="bg-tag px-2 py-1 text-xs tracking-wide">{category}</span>
+        <span class="border border-rule px-2 py-1 text-xs tracking-wide text-muted">{level}</span>
+      </div>
 
-    <div class="lesson-body mt-8">
-      <Content />
-    </div>
+      <h1 class="display mt-5 text-3xl">{title}</h1>
+      <p class="mt-4 text-sm leading-relaxed text-muted">{summary}</p>
 
-    <section class="mt-10" aria-labelledby="vocab-heading">
-      <h2 id="vocab-heading" class="text-xl font-bold">Vocab</h2>
-      <dl class="mt-4 space-y-6">
-        {
-          entries.map((entry) => (
-            <div>
-              <dt>
-                {/* Furigana as semantic ruby, with rp fallbacks. */}
-                <ruby lang="ja" class="text-4xl">
-                  {entry.data.term}
-                  <rp>(</rp>
-                  <rt class="text-base">{entry.data.reading}</rt>
-                  <rp>)</rp>
-                </ruby>
-                <span class="ml-3 text-sm">{entry.data.romaji}</span>
-              </dt>
-              <dd class="mt-2">
-                <p>{entry.data.meaning}</p>
-                <p class="mt-1 text-sm">{entry.data.register}</p>
-                {entry.data.singlishEquivalent && (
-                  <p class="mt-2 text-sm">
-                    <strong>Singlish:</strong> {entry.data.singlishEquivalent}
+      {
+        audioUrl && (
+          <audio controls preload="none" src={audioUrl} class="mt-6 w-full">
+            Your browser does not support the audio element.
+          </audio>
+        )
+      }
+
+      <div class="lesson-body mt-7 border-t border-rule pt-6 leading-relaxed">
+        <Content />
+      </div>
+
+      <section class="mt-12" aria-labelledby="vocab-heading">
+        <h2 id="vocab-heading" class="sr-only">Vocab</h2>
+        <dl class="space-y-12">
+          {
+            entries.map((entry) => (
+              <div>
+                <dt class="text-center">
+                  {/* Furigana as semantic ruby. The marker sits on the base
+                      only, so it does not wash over the reading above. */}
+                  <ruby lang="ja" class="text-6xl leading-tight">
+                    <span class="bg-marker px-3">{entry.data.term}</span>
+                    <rp>(</rp>
+                    <rt class="text-xs text-muted">{entry.data.reading}</rt>
+                    <rp>)</rp>
+                  </ruby>
+                  <p class="mt-3 text-xs tracking-widest text-muted uppercase">
+                    {entry.data.romaji}
                   </p>
-                )}
-                {entry.data.chineseNote && (
-                  <p class="mt-2 text-sm">
-                    <strong>In Chinese:</strong> {entry.data.chineseNote}
-                  </p>
-                )}
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
-    </section>
+                </dt>
+                <dd class="mt-5">
+                  <p class="text-base">{entry.data.meaning}</p>
+                  <p class="mt-1 text-xs tracking-wide text-muted">{entry.data.register}</p>
 
-    {
-      /* Hard rule 1: linked, never embedded. */
-      videoUrl && (
-        <p class="mt-10">
-          <a href={videoUrl} rel="noopener noreferrer" target="_blank" class="underline">
-            Watch the video
-          </a>
-        </p>
-      )
-    }
-  </article>
+                  {entry.data.singlishEquivalent && (
+                    <div class="mt-4 border-l-2 border-tag pl-3">
+                      <p class="text-xs font-bold tracking-wide text-ink uppercase">In Singlish</p>
+                      <p class="mt-1 text-sm leading-relaxed">{entry.data.singlishEquivalent}</p>
+                    </div>
+                  )}
+
+                  {entry.data.chineseNote && (
+                    <div class="mt-4 border-l-2 border-alert pl-3">
+                      <p class="text-xs font-bold tracking-wide text-alert uppercase">In Chinese</p>
+                      <p class="mt-1 text-sm leading-relaxed">{entry.data.chineseNote}</p>
+                    </div>
+                  )}
+                </dd>
+              </div>
+            ))
+          }
+        </dl>
+      </section>
+
+      {
+        /* Hard rule 1: linked, never embedded. */
+        videoUrl && (
+          <p class="mt-12 border-t border-rule pt-6">
+            <a
+              href={videoUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+              class="border-b border-alert pb-0.5 text-sm text-alert"
+            >
+              Watch the video
+            </a>
+          </p>
+        )
+      }
+    </article>
+  </div>
 </BaseLayout>
