@@ -1,0 +1,18 @@
+---
+const path = Astro.url.pathname;
+const onLessons = path.startsWith('/lessons');
+---
+
+<header class="mx-auto flex max-w-2xl items-baseline justify-between px-5 py-6">
+  <a href="/" class="brand text-lg font-bold tracking-tight">madojapan</a>
+  <nav>
+    <a
+      href="/lessons"
+      class:list={[
+        'text-sm',
+        onLessons ? 'border-b border-ink' : 'text-muted',
+      ]}
+      aria-current={onLessons ? 'page' : undefined}>lessons</a
+    >
+  </nav>
+</header>

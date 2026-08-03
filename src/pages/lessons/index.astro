@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const lessons = await getCollection(
+  'lessons',
+  ({ data }) => import.meta.env.DEV || !data.draft,
+);
+
+lessons.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+// Derived from the content, not hardcoded, so a new category can never
+// appear in a lesson without also appearing as a filter.
+const categories = [...new Set(lessons.map((l) => l.data.category))].sort();
+const levelOrder = ['beginner', 'intermediate', 'advanced'] as const;
+const levels = levelOrder.filter((lv) => lessons.some((l) => l.data.level === lv));
+---
+
+<BaseLayout
+  title="Lessons"
+  description="Short Japanese lessons with a Singlish and Chinese-speaker angle.">
+  <div class="mx-auto max-w-2xl px-5">
+    <h1 class="display text-3xl">Lessons</h1>
+
+    <div data-filters class="mt-8 space-y-3">
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="w-16 text-xs text-muted">topic</span>
+        <button type="button" data-filter="category" data-value="" aria-pressed="true"
+          class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper"
+          >all</button
+        >
+        {
+          categories.map((c) => (
+            <button type="button" data-filter="category" data-value={c} aria-pressed="false"
+              class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper">
+              {c}
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <span class="w-16 text-xs text-muted">level</span>
+        <button type="button" data-filter="level" data-value="" aria-pressed="true"
+          class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper"
+          >all</button
+        >
+        {
+          levels.map((lv) => (
+            <button type="button" data-filter="level" data-value={lv} aria-pressed="false"
+              class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper">
+              {lv}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <p data-count class="mt-6 text-xs text-muted" aria-live="polite">
+      {lessons.length}{lessons.length === 1 ? ' lesson' : ' lessons'}
+    </p>
+
+    <ul class="mt-4 divide-y divide-rule border-t border-rule">
+      {
+        lessons.map((lesson) => (
+          <li data-lesson data-category={lesson.data.category} data-level={lesson.data.level}>
+            <a href={`/lessons/${lesson.data.slug}`} class="block py-5">
+              <div class="flex gap-2">
+                <span class="bg-tag px-2 py-0.5 text-xs">{lesson.data.category}</span>
+                <span class="border border-rule px-2 py-0.5 text-xs text-muted">
+                  {lesson.data.level}
+                </span>
+              </div>
+              <h2 class="mt-3 text-base font-bold">{lesson.data.title}</h2>
+              <p class="mt-1 text-sm text-muted">{lesson.data.summary}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p data-empty hidden class="mt-8 text-sm text-muted">
+      No lessons match those filters.
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Progressive enhancement: every lesson is already in the HTML, so with
+  // JavaScript off the full list still renders and every link still works.
+  // This only hides rows.
+  const root = document.querySelector<HTMLElement>('[data-filters]');
+  const items = [...document.querySelectorAll<HTMLElement>('[data-lesson]')];
+  const count = document.querySelector<HTMLElement>('[data-count]');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+
+  if (root && items.length) {
+    const active: Record<string, string> = { category: '', level: '' };
+
+    const apply = () => {
+      let shown = 0;
+      for (const item of items) {
+        const match =
+          (!active.category || item.dataset.category === active.category) &&
+          (!active.level || item.dataset.level === active.level);
+        item.hidden = !match;
+        if (match) shown += 1;
+      }
+      if (count) count.textContent = `${shown} ${shown === 1 ? 'lesson' : 'lessons'}`;
+      if (empty) empty.hidden = shown !== 0;
+    };
+
+    root.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+      if (!button) return;
+
+      const group = button.dataset.filter!;
+      active[group] = button.dataset.value ?? '';
+
+      for (const sibling of root.querySelectorAll<HTMLButtonElement>(
+        `[data-filter="${group}"]`,
+      )) {
+        sibling.setAttribute('aria-pressed', String(sibling === button));
+      }
+      apply();
+    });
+  }
+</script>
