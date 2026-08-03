@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* Functional, not a design decision. Without a Japanese-capable family in the
+   stack, a browser can render CJK glyphs using Chinese font shapes — which on
+   this site would actively undermine the lessons. System fonts only; no
+   webfonts, since the real typeface pairing is still an open decision. */
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP",
+    Meiryo, sans-serif;
+}
+
+/* Markdown bodies render raw <p> tags with no Tailwind classes to hook.
+   Paragraph rhythm only — not a type scale, and not a design system. */
+.lesson-body p + p {
+  margin-top: 1rem;
+}

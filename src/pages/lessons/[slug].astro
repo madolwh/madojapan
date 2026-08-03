@@ -1,0 +1,98 @@
+---
+import { getCollection, getEntries, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const lessons = await getCollection(
+    'lessons',
+    // Drafts are visible while writing, excluded from the production build.
+    ({ data }) => import.meta.env.DEV || !data.draft,
+  );
+
+  return lessons.map((lesson) => ({
+    params: { slug: lesson.data.slug },
+    props: { lesson },
+  }));
+}
+
+const { lesson } = Astro.props;
+const { title, summary, videoUrl, audioUrl, vocab } = lesson.data;
+const { Content } = await render(lesson);
+
+// reference() validates shape but not existence — a typo'd slug resolves to
+// null and would silently render a gap. Fail the build instead.
+const entries = await getEntries(vocab);
+const missing = vocab.filter((_, i) => !entries[i]).map((ref) => ref.id);
+if (missing.length > 0) {
+  throw new Error(
+    `Lesson "${lesson.id}" references vocab that does not exist: ${missing.join(', ')}. ` +
+      `Add src/content/vocab/${missing[0]}.md or fix the slug.`,
+  );
+}
+---
+
+<BaseLayout title={title} description={summary}>
+  <article class="mx-auto max-w-2xl px-5 py-10">
+    <h1 class="text-3xl font-bold">{title}</h1>
+    <p class="mt-3 text-lg">{summary}</p>
+
+    {
+      audioUrl && (
+        <audio controls preload="none" src={audioUrl} class="mt-6 w-full">
+          Your browser does not support the audio element.
+        </audio>
+      )
+    }
+
+    <div class="lesson-body mt-8">
+      <Content />
+    </div>
+
+    <section class="mt-10" aria-labelledby="vocab-heading">
+      <h2 id="vocab-heading" class="text-xl font-bold">Vocab</h2>
+      <dl class="mt-4 space-y-6">
+        {
+          entries.map((entry) => (
+            <div>
+              <dt>
+                {/* Furigana as semantic ruby, with rp fallbacks. */}
+                <ruby lang="ja" class="text-4xl">
+                  {entry.data.term}
+                  <rp>(</rp>
+                  <rt class="text-base">{entry.data.reading}</rt>
+                  <rp>)</rp>
+                </ruby>
+                <span class="ml-3 text-sm">{entry.data.romaji}</span>
+              </dt>
+              <dd class="mt-2">
+                <p>{entry.data.meaning}</p>
+                <p class="mt-1 text-sm">{entry.data.register}</p>
+                {entry.data.singlishEquivalent && (
+                  <p class="mt-2 text-sm">
+                    <strong>Singlish:</strong> {entry.data.singlishEquivalent}
+                  </p>
+                )}
+                {entry.data.chineseNote && (
+                  <p class="mt-2 text-sm">
+                    <strong>In Chinese:</strong> {entry.data.chineseNote}
+                  </p>
+                )}
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    {
+      /* Hard rule 1: linked, never embedded. */
+      videoUrl && (
+        <p class="mt-10">
+          <a href={videoUrl} rel="noopener noreferrer" target="_blank" class="underline">
+            Watch the video
+          </a>
+        </p>
+      )
+    }
+  </article>
+</BaseLayout>

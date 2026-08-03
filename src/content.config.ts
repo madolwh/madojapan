@@ -7,7 +7,7 @@ const lessons = defineCollection({
     title: z.string(),
     slug: z.string(),
     summary: z.string(),
-    category: z.enum(['singlish', 'kanji', 'travel', 'speaking']),
+    category: z.enum(['singlish', 'kanji', 'slang', 'travel', 'speaking']),
     level: z.enum(['beginner', 'intermediate', 'advanced']),
     // Linked, never embedded — see hard rule 1.
     videoUrl: z.string().url().optional(),
