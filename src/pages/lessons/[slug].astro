@@ -16,7 +16,8 @@ export async function getStaticPaths() {
 }
 
 const { lesson } = Astro.props;
-const { title, summary, category, level, videoUrl, audioUrl, vocab } = lesson.data;
+const { title, summary, category, level, videoUrl, audioUrl, vocab, publishedAt } =
+  lesson.data;
 const { Content } = await render(lesson);
 
 // reference() validates shape but not existence — a typo'd slug resolves to
@@ -31,7 +32,7 @@ if (missing.length > 0) {
 }
 ---
 
-<BaseLayout title={title} description={summary}>
+<BaseLayout title={title} description={summary} type="article" publishedAt={publishedAt}>
   <div class="mx-auto max-w-2xl px-5">
     {/* Only elements inside data-pagefind-body get indexed, which keeps the
         header, footer and nav out of every search result. */}
