@@ -1,16 +1,21 @@
 @import "tailwindcss";
+@import "@fontsource-variable/inter/wght.css";
+@import "@fontsource-variable/noto-sans-jp/wght.css";
 
 @theme {
-  /* System stack — no webfont. Real Helvetica Neue on Apple; Windows falls
-     back to Arial (near-identical metrics, so layout holds), Android to
-     Roboto. Japanese fallbacks are appended so CJK inside English prose
-     still renders with Japanese glyph shapes. */
+  /* Both faces ship as webfonts so rendering is identical on every device —
+     system stacks can't do that, since Apple, Windows and Android each
+     license different fonts. Noto Sans JP is split across unicode-range
+     subsets, so a page downloads only the subsets its characters need. */
+  /* Noto sits in the sans stack too: Inter has no CJK, so without it the
+     Japanese inside English body prose would drop to a system gothic and
+     stop matching the hero. */
   --font-sans:
-    "Helvetica Neue", Helvetica, Arial, "Hiragino Kaku Gothic ProN",
-    "Hiragino Sans", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+    "Inter Variable", "Noto Sans JP Variable", "Helvetica Neue", Helvetica,
+    Arial, sans-serif;
   --font-jp:
-    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP",
-    Meiryo, sans-serif;
+    "Noto Sans JP Variable", "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic", Meiryo, sans-serif;
 
   --color-paper: #ffffff;
   --color-ink: #0a0a0a;
