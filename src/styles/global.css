@@ -11,6 +11,16 @@
     Meiryo, sans-serif;
 }
 
+/* Light only — the site does not follow the OS dark preference. color-scheme
+   matters as much as the background here: it keeps native UI (the <audio>
+   player, scrollbars, focus rings) light instead of inverted. Placeholder
+   values; the real palette is still an open decision. */
+:root {
+  color-scheme: light;
+  background-color: #ffffff;
+  color: #111111;
+}
+
 /* Markdown bodies render raw <p> tags with no Tailwind classes to hook.
    Paragraph rhythm only — not a type scale, and not a design system. */
 .lesson-body p + p {
