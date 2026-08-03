@@ -1,5 +1,8 @@
-import { defineCollection, reference, z } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
+// z re-exported from astro:content is deprecated; astro/zod is the supported
+// path and pins the same Zod version Astro validates against.
+import { z } from 'astro/zod';
 
 const lessons = defineCollection({
   loader: glob({ base: './src/content/lessons', pattern: '**/*.md' }),
@@ -10,7 +13,7 @@ const lessons = defineCollection({
     category: z.enum(['singlish', 'kanji', 'slang', 'travel', 'speaking']),
     level: z.enum(['beginner', 'intermediate', 'advanced']),
     // Linked, never embedded — see hard rule 1.
-    videoUrl: z.string().url().optional(),
+    videoUrl: z.url().optional(),
     // Local file only — see hard rule 2. The path check keeps a CDN or
     // platform URL from quietly getting in here later.
     audioUrl: z.string().startsWith('/audio/').optional(),

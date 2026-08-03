@@ -67,6 +67,29 @@ ruby {
   text-transform: lowercase !important;
 }
 
+/* Explicit keyboard focus. The UA default ring is inconsistent across
+   browsers and low contrast on this palette; :focus-visible keeps it off
+   mouse clicks. */
+:focus-visible {
+  outline: 2px solid var(--color-alert);
+  outline-offset: 2px;
+}
+
+/* Skip link: off-screen until focused, then pinned to the top left. */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  z-index: 50;
+}
+.skip-link:focus {
+  left: 0;
+}
+
 /* Search hit highlighting. Pagefind wraps matches in <mark>, which browsers
    default to their own yellow — use the marker colour instead. */
 mark {

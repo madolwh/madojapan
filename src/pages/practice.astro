@@ -51,7 +51,9 @@ const lessonOptions = lessons
       Progress lives in this tab only and resets when you reload.
     </p>
 
-    <script type="application/json" data-deck set:html={JSON.stringify(deck)} />
+    {/* Data, not code — is:inline is explicit so Astro does not try to
+        process it as a module. */}
+    <script is:inline type="application/json" data-deck set:html={JSON.stringify(deck)} />
 
     {
       deck.length === 0 ? (
@@ -137,7 +139,9 @@ const lessonOptions = lessons
                   <span lang="ja" data-front-term class="text-7xl leading-none" />
                   <span class="mt-6 text-xs text-muted">tap or press space to flip</span>
                 </span>
-                <span class="face face-back flex min-h-56 flex-col justify-center">
+                <span
+                  class="face face-back flex min-h-56 flex-col justify-center"
+                  aria-hidden="true">
                   <span lang="ja" data-back-reading class="text-2xl" />
                   <span data-back-romaji class="mt-1 text-xs tracking-widest text-muted uppercase" />
                   <span data-back-meaning class="mt-4 text-lg" />
@@ -280,10 +284,17 @@ const lessonOptions = lessons
           (!active.lesson || c.lessons.includes(active.lesson)),
       );
 
+    const front = el('.face-front');
+    const back = el('.face-back');
+
     const setFlipped = (next: boolean) => {
       flipped = next;
       cardBtn.classList.toggle('is-flipped', next);
       rate.hidden = !next;
+      // backface-visibility hides the far face visually but NOT from assistive
+      // tech. Without this a screen reader reads the answer before the flip.
+      front.setAttribute('aria-hidden', String(next));
+      back.setAttribute('aria-hidden', String(!next));
     };
 
     const render = () => {

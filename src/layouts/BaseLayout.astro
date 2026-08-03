@@ -22,8 +22,9 @@ const pageTitle = `${title} — madojapan`;
     {description && <meta name="description" content={description} />}
   </head>
   <body>
+    <a href="#main" class="skip-link">Skip to content</a>
     <Header />
-    <main>
+    <main id="main" tabindex="-1">
       <slot />
     </main>
     <Footer />
