@@ -68,6 +68,48 @@ ruby {
   text-transform: lowercase !important;
 }
 
+/* Page shell. Full-bleed with padding that grows, rather than a fixed narrow
+   column — the old max-w-2xl capped the site at 672px on every screen. The
+   outer cap only stops it sprawling on ultrawide displays. */
+.wrap {
+  width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 2.5rem;
+  }
+}
+@media (min-width: 1280px) {
+  .wrap {
+    padding-inline: 4rem;
+  }
+}
+
+/* Prose still needs a readable measure even inside a full-width shell. */
+.measure {
+  max-width: 38rem;
+}
+
+/* Display type that scales with the viewport instead of stepping at
+   breakpoints — this is what makes the type read as the design. */
+.display-xl {
+  font-size: clamp(2.5rem, 9vw, 9rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.display-lg {
+  font-size: clamp(2rem, 6vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 /* Explicit keyboard focus. The UA default ring is inconsistent across
    browsers and low contrast on this palette; :focus-visible keeps it off
    mouse clicks. */

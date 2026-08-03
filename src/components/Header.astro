@@ -8,16 +8,16 @@ const links = [
 ];
 ---
 
-<header class="mx-auto flex max-w-2xl items-baseline justify-between px-5 py-6">
-  <a href="/" class="brand text-lg font-bold tracking-tight">madojapan</a>
-  <nav class="flex gap-4">
+<header class="wrap flex items-baseline justify-between border-b border-rule py-4">
+  <a href="/" class="brand text-sm font-bold tracking-tight">madojapan</a>
+  <nav class="flex gap-5">
     {
       links.map(({ href, label }) => {
         const current = path.startsWith(href);
         return (
           <a
             href={href}
-            class:list={['text-sm', current ? 'border-b border-ink' : 'text-muted']}
+            class:list={['text-xs tracking-wide', current ? 'text-ink' : 'text-muted']}
             aria-current={current ? 'page' : undefined}>
             {label}
           </a>

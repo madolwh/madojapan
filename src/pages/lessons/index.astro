@@ -19,36 +19,31 @@ const levels = levelOrder.filter((lv) => lessons.some((l) => l.data.level === lv
 <BaseLayout
   title="Lessons"
   description="Short Japanese lessons with a Singlish and Chinese-speaker angle.">
-  <div class="mx-auto max-w-2xl px-5">
-    <h1 class="display text-3xl">Lessons</h1>
+  <div class="wrap">
+    <h1 class="display-xl mt-8 mb-10">Lessons</h1>
 
-    <div data-filters class="mt-8 space-y-3">
+    <div data-filters class="space-y-2 border-t border-rule pt-5">
       <div class="flex flex-wrap items-center gap-2">
-        <span class="w-16 text-xs text-muted">topic</span>
-        <button type="button" data-filter="category" data-value="" aria-pressed="true"
-          class="chip"
-          >all</button
-        >
+        <span class="w-14 text-xs text-muted">topic</span>
+        <button type="button" data-filter="category" data-value="" aria-pressed="true" class="chip">
+          all
+        </button>
         {
           categories.map((c) => (
-            <button type="button" data-filter="category" data-value={c} aria-pressed="false"
-              class="chip">
+            <button type="button" data-filter="category" data-value={c} aria-pressed="false" class="chip">
               {c}
             </button>
           ))
         }
       </div>
-
       <div class="flex flex-wrap items-center gap-2">
-        <span class="w-16 text-xs text-muted">level</span>
-        <button type="button" data-filter="level" data-value="" aria-pressed="true"
-          class="chip"
-          >all</button
-        >
+        <span class="w-14 text-xs text-muted">level</span>
+        <button type="button" data-filter="level" data-value="" aria-pressed="true" class="chip">
+          all
+        </button>
         {
           levels.map((lv) => (
-            <button type="button" data-filter="level" data-value={lv} aria-pressed="false"
-              class="chip">
+            <button type="button" data-filter="level" data-value={lv} aria-pressed="false" class="chip">
               {lv}
             </button>
           ))
@@ -60,28 +55,39 @@ const levels = levelOrder.filter((lv) => lessons.some((l) => l.data.level === lv
       {lessons.length}{lessons.length === 1 ? ' lesson' : ' lessons'}
     </p>
 
-    <ul class="mt-4 divide-y divide-rule border-t border-rule">
+    <ul class="mt-2 border-t border-rule">
       {
-        lessons.map((lesson) => (
-          <li data-lesson data-category={lesson.data.category} data-level={lesson.data.level}>
-            <a href={`/lessons/${lesson.data.slug}`} class="block py-5">
-              <div class="flex gap-2">
-                <span class="bg-tag px-2 py-0.5 text-xs">{lesson.data.category}</span>
-                <span class="border border-rule px-2 py-0.5 text-xs text-muted">
-                  {lesson.data.level}
+        lessons.map((lesson, i) => (
+          <li
+            data-lesson
+            data-category={lesson.data.category}
+            data-level={lesson.data.level}
+            class="border-b border-rule">
+            <a
+              href={`/lessons/${lesson.data.slug}`}
+              class="group grid grid-cols-1 gap-3 py-7 md:grid-cols-[4rem_1fr_18rem] md:items-baseline md:gap-8">
+              <span class="text-xs text-muted tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+
+              <h2 class="display-lg group-hover:text-alert">{lesson.data.title}</h2>
+
+              <span class="flex flex-col gap-3">
+                <span class="flex gap-2">
+                  <span class="bg-tag px-2 py-0.5 text-xs">{lesson.data.category}</span>
+                  <span class="border border-rule px-2 py-0.5 text-xs text-muted">
+                    {lesson.data.level}
+                  </span>
                 </span>
-              </div>
-              <h2 class="mt-3 text-base font-bold">{lesson.data.title}</h2>
-              <p class="mt-1 text-sm text-muted">{lesson.data.summary}</p>
+                <span class="text-sm leading-relaxed text-muted">{lesson.data.summary}</span>
+              </span>
             </a>
           </li>
         ))
       }
     </ul>
 
-    <p data-empty hidden class="mt-8 text-sm text-muted">
-      No lessons match those filters.
-    </p>
+    <p data-empty hidden class="mt-8 text-sm text-muted">No lessons match those filters.</p>
   </div>
 </BaseLayout>
 

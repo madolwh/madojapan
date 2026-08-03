@@ -5,10 +5,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout
   title="Search"
   description="Search every lesson by Japanese term, reading, romaji or meaning.">
-  <div class="mx-auto max-w-2xl px-5">
-    <h1 class="display text-3xl">Search</h1>
+  <div class="wrap">
+    <h1 class="display-lg mt-8">Search</h1>
 
-    <form data-search-form role="search" class="mt-6" onsubmit="return false">
+    <form data-search-form role="search" class="mt-8 max-w-2xl" onsubmit="return false">
       <label for="q" class="text-xs text-muted">
         Try a Japanese term, its romaji, or an English word
       </label>
@@ -24,7 +24,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <p data-status class="mt-4 text-xs text-muted" aria-live="polite"></p>
 
-    <ul data-results class="mt-2 divide-y divide-rule"></ul>
+    <ul data-results class="mt-2 max-w-3xl divide-y divide-rule"></ul>
 
     <noscript>
       <p class="mt-6 text-sm text-muted">
