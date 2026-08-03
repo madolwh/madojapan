@@ -67,6 +67,22 @@ ruby {
   text-transform: lowercase !important;
 }
 
+/* Filter chips. The label is deliberately small, but min-height keeps the
+   hit area at 44px — below that they are unreliable to tap on a phone. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0 0.625rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--color-rule);
+}
+.chip[aria-pressed='true'] {
+  border-color: var(--color-ink);
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+}
+
 /* Markdown bodies render raw <p> tags with no Tailwind classes to hook.
    Paragraph rhythm only — not a type scale. */
 .lesson-body p + p {

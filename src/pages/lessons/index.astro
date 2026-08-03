@@ -26,13 +26,13 @@ const levels = levelOrder.filter((lv) => lessons.some((l) => l.data.level === lv
       <div class="flex flex-wrap items-center gap-2">
         <span class="w-16 text-xs text-muted">topic</span>
         <button type="button" data-filter="category" data-value="" aria-pressed="true"
-          class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper"
+          class="chip"
           >all</button
         >
         {
           categories.map((c) => (
             <button type="button" data-filter="category" data-value={c} aria-pressed="false"
-              class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper">
+              class="chip">
               {c}
             </button>
           ))
@@ -42,13 +42,13 @@ const levels = levelOrder.filter((lv) => lessons.some((l) => l.data.level === lv
       <div class="flex flex-wrap items-center gap-2">
         <span class="w-16 text-xs text-muted">level</span>
         <button type="button" data-filter="level" data-value="" aria-pressed="true"
-          class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper"
+          class="chip"
           >all</button
         >
         {
           levels.map((lv) => (
             <button type="button" data-filter="level" data-value={lv} aria-pressed="false"
-              class="border border-rule px-2 py-1 text-xs aria-pressed:border-ink aria-pressed:bg-ink aria-pressed:text-paper">
+              class="chip">
               {lv}
             </button>
           ))

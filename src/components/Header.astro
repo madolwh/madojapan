@@ -1,18 +1,27 @@
 ---
 const path = Astro.url.pathname;
-const onLessons = path.startsWith('/lessons');
+
+const links = [
+  { href: '/lessons', label: 'lessons' },
+  { href: '/practice', label: 'practice' },
+];
 ---
 
 <header class="mx-auto flex max-w-2xl items-baseline justify-between px-5 py-6">
   <a href="/" class="brand text-lg font-bold tracking-tight">madojapan</a>
-  <nav>
-    <a
-      href="/lessons"
-      class:list={[
-        'text-sm',
-        onLessons ? 'border-b border-ink' : 'text-muted',
-      ]}
-      aria-current={onLessons ? 'page' : undefined}>lessons</a
-    >
+  <nav class="flex gap-4">
+    {
+      links.map(({ href, label }) => {
+        const current = path.startsWith(href);
+        return (
+          <a
+            href={href}
+            class:list={['text-sm', current ? 'border-b border-ink' : 'text-muted']}
+            aria-current={current ? 'page' : undefined}>
+            {label}
+          </a>
+        );
+      })
+    }
   </nav>
 </header>

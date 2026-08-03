@@ -1,0 +1,393 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lessons = await getCollection(
+  'lessons',
+  ({ data }) => import.meta.env.DEV || !data.draft,
+);
+const vocab = await getCollection('vocab');
+
+// A vocab entry earns a place in the deck by being referenced from a visible
+// lesson. That keeps orphaned or half-written entries out of practice.
+const usage = new Map<string, { lessons: Set<string>; categories: Set<string> }>();
+for (const lesson of lessons) {
+  for (const ref of lesson.data.vocab) {
+    if (!usage.has(ref.id)) {
+      usage.set(ref.id, { lessons: new Set(), categories: new Set() });
+    }
+    usage.get(ref.id)!.lessons.add(lesson.data.slug);
+    usage.get(ref.id)!.categories.add(lesson.data.category);
+  }
+}
+
+const deck = vocab
+  .filter((entry) => usage.has(entry.id))
+  .map((entry) => ({
+    id: entry.id,
+    term: entry.data.term,
+    reading: entry.data.reading,
+    romaji: entry.data.romaji,
+    meaning: entry.data.meaning,
+    register: entry.data.register,
+    singlishEquivalent: entry.data.singlishEquivalent ?? null,
+    chineseNote: entry.data.chineseNote ?? null,
+    categories: [...usage.get(entry.id)!.categories],
+    lessons: [...usage.get(entry.id)!.lessons],
+  }));
+
+const categories = [...new Set(deck.flatMap((c) => c.categories))].sort();
+const lessonOptions = lessons
+  .filter((l) => l.data.vocab.length > 0)
+  .map((l) => ({ slug: l.data.slug, title: l.data.title }));
+---
+
+<BaseLayout
+  title="Practice"
+  description="Drill the vocab from every lesson as flashcards. Nothing is saved.">
+  <div class="mx-auto max-w-2xl px-5">
+    <h1 class="display text-3xl">Practice</h1>
+    <p class="mt-3 text-xs text-muted">
+      Progress lives in this tab only and resets when you reload.
+    </p>
+
+    <script type="application/json" data-deck set:html={JSON.stringify(deck)} />
+
+    {
+      deck.length === 0 ? (
+        <p class="mt-10 text-sm text-muted">
+          No vocab to practise yet. Add a vocab entry and reference it from a
+          lesson.
+        </p>
+      ) : (
+        <>
+          {/* Server-rendered fallback: without JS this stays as a readable
+              vocab list rather than a dead button. */}
+          <div data-fallback>
+            <dl class="mt-10 divide-y divide-rule border-t border-rule">
+              {deck.map((card) => (
+                <div class="py-5">
+                  <dt>
+                    <span lang="ja" class="text-3xl">
+                      {card.term}
+                    </span>
+                    <span class="ml-3 text-xs text-muted">{card.romaji}</span>
+                  </dt>
+                  <dd class="mt-2 text-sm">{card.meaning}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div data-app hidden>
+            <div data-filters class="mt-8 space-y-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="w-16 text-xs text-muted">topic</span>
+                <button
+                  type="button"
+                  data-filter="category"
+                  data-value=""
+                  aria-pressed="true"
+                  class="chip">
+                  all
+                </button>
+                {categories.map((c) => (
+                  <button
+                    type="button"
+                    data-filter="category"
+                    data-value={c}
+                    aria-pressed="false"
+                    class="chip">
+                    {c}
+                  </button>
+                ))}
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="w-16 text-xs text-muted">lesson</span>
+                <button
+                  type="button"
+                  data-filter="lesson"
+                  data-value=""
+                  aria-pressed="true"
+                  class="chip">
+                  all
+                </button>
+                {lessonOptions.map((l) => (
+                  <button
+                    type="button"
+                    data-filter="lesson"
+                    data-value={l.slug}
+                    aria-pressed="false"
+                    class="chip">
+                    {l.slug}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <p data-progress class="mt-6 text-xs text-muted" aria-live="polite" />
+
+            <button
+              type="button"
+              data-card
+              aria-live="polite"
+              class="mt-3 block w-full cursor-pointer border border-rule p-6 text-left">
+              <span class="flip block min-h-56">
+                <span class="face face-front flex min-h-56 flex-col items-center justify-center">
+                  <span lang="ja" data-front-term class="text-7xl leading-none" />
+                  <span class="mt-6 text-xs text-muted">tap or press space to flip</span>
+                </span>
+                <span class="face face-back flex min-h-56 flex-col justify-center">
+                  <span lang="ja" data-back-reading class="text-2xl" />
+                  <span data-back-romaji class="mt-1 text-xs tracking-widest text-muted uppercase" />
+                  <span data-back-meaning class="mt-4 text-lg" />
+                  <span data-back-register class="mt-1 text-xs text-muted" />
+                  <span data-back-singlish class="mt-4 border-l-2 border-tag pl-3 text-sm" hidden />
+                  <span data-back-chinese class="mt-4 border-l-2 border-alert pl-3 text-sm" hidden />
+                </span>
+              </span>
+            </button>
+
+            <div data-rate class="mt-3 grid grid-cols-2 gap-3" hidden>
+              <button
+                type="button"
+                data-again
+                class="border border-alert px-3 py-3 text-sm text-alert">
+                Again <span class="text-xs text-muted">←</span>
+              </button>
+              <button type="button" data-got class="border border-ink bg-ink px-3 py-3 text-sm text-paper">
+                Got it <span class="text-xs">→</span>
+              </button>
+            </div>
+
+            <div data-done hidden class="mt-10 border-t border-rule pt-8">
+              <p class="text-lg">Deck finished.</p>
+              <p data-done-summary class="mt-2 text-sm text-muted" />
+              <button
+                type="button"
+                data-restart
+                class="mt-5 border border-ink px-3 py-2 text-sm">
+                Run it again
+              </button>
+            </div>
+
+            <p class="mt-8 text-xs text-muted">
+              space flips · ← again · → got it
+            </p>
+          </div>
+        </>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .flip {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 320ms ease;
+  }
+  :global([data-card].is-flipped) .flip {
+    transform: rotateY(180deg);
+  }
+  .face {
+    backface-visibility: hidden;
+    width: 100%;
+  }
+  .face-back {
+    position: absolute;
+    inset: 0;
+    transform: rotateY(180deg);
+  }
+
+  /* Reduced motion: no rotation at all, the two faces cross-fade instead. */
+  @media (prefers-reduced-motion: reduce) {
+    .flip,
+    :global([data-card].is-flipped) .flip {
+      transform: none;
+      transition: none;
+    }
+    .face {
+      backface-visibility: visible;
+      transition: opacity 160ms linear;
+    }
+    .face-back {
+      transform: none;
+      opacity: 0;
+    }
+    :global([data-card].is-flipped) .face-front {
+      opacity: 0;
+    }
+    :global([data-card].is-flipped) .face-back {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  interface Card {
+    id: string;
+    term: string;
+    reading: string;
+    romaji: string;
+    meaning: string;
+    register: string;
+    singlishEquivalent: string | null;
+    chineseNote: string | null;
+    categories: string[];
+    lessons: string[];
+  }
+
+  const raw = document.querySelector<HTMLScriptElement>('[data-deck]');
+  const app = document.querySelector<HTMLElement>('[data-app]');
+  const fallback = document.querySelector<HTMLElement>('[data-fallback]');
+
+  if (raw && app && fallback) {
+    const all: Card[] = JSON.parse(raw.textContent || '[]');
+
+    // Swap the static list for the interactive deck only once we know the
+    // script ran — no JS means the list simply stays.
+    fallback.hidden = true;
+    app.hidden = false;
+
+    const el = <T extends HTMLElement>(sel: string) => app.querySelector<T>(sel)!;
+    const cardBtn = el<HTMLButtonElement>('[data-card]');
+    const rate = el('[data-rate]');
+    const done = el('[data-done]');
+    const doneSummary = el('[data-done-summary]');
+    const progress = el('[data-progress]');
+    const filters = el('[data-filters]');
+
+    const active: Record<string, string> = { category: '', lesson: '' };
+    let queue: Card[] = [];
+    let flipped = false;
+    let reviewed = 0;
+    let againCount = 0;
+
+    const shuffle = (cards: Card[]) => {
+      const out = [...cards];
+      for (let i = out.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    };
+
+    const matching = () =>
+      all.filter(
+        (c) =>
+          (!active.category || c.categories.includes(active.category)) &&
+          (!active.lesson || c.lessons.includes(active.lesson)),
+      );
+
+    const setFlipped = (next: boolean) => {
+      flipped = next;
+      cardBtn.classList.toggle('is-flipped', next);
+      rate.hidden = !next;
+    };
+
+    const render = () => {
+      const card = queue[0];
+      if (!card) {
+        cardBtn.hidden = true;
+        rate.hidden = true;
+        done.hidden = false;
+        progress.textContent = '';
+        doneSummary.textContent = againCount
+          ? `${reviewed} reviewed · ${againCount} sent back for another look`
+          : `${reviewed} reviewed, all first time`;
+        return;
+      }
+
+      cardBtn.hidden = false;
+      done.hidden = true;
+      setFlipped(false);
+
+      el('[data-front-term]').textContent = card.term;
+      el('[data-back-reading]').textContent = card.reading;
+      el('[data-back-romaji]').textContent = card.romaji;
+      el('[data-back-meaning]').textContent = card.meaning;
+      el('[data-back-register]').textContent = card.register;
+
+      const singlish = el('[data-back-singlish]');
+      singlish.hidden = !card.singlishEquivalent;
+      singlish.textContent = card.singlishEquivalent ?? '';
+
+      const chinese = el('[data-back-chinese]');
+      chinese.hidden = !card.chineseNote;
+      chinese.textContent = card.chineseNote ?? '';
+
+      progress.textContent = `${queue.length} left · ${reviewed} done`;
+    };
+
+    const start = () => {
+      queue = shuffle(matching());
+      reviewed = 0;
+      againCount = 0;
+      render();
+    };
+
+    const answer = (got: boolean) => {
+      if (!flipped || !queue.length) return;
+      const [card] = queue.splice(0, 1);
+      if (got) {
+        reviewed += 1;
+      } else {
+        againCount += 1;
+        // Not an SRS interval — just far enough back that you see it again
+        // this session without it being the very next card.
+        queue.splice(Math.min(3, queue.length), 0, card);
+      }
+      render();
+    };
+
+    cardBtn.addEventListener('click', () => setFlipped(!flipped));
+    el('[data-again]').addEventListener('click', () => answer(false));
+    el('[data-got]').addEventListener('click', () => answer(true));
+    el('[data-restart]').addEventListener('click', start);
+
+    filters.addEventListener('click', (event) => {
+      const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+      if (!button) return;
+      const group = button.dataset.filter!;
+      active[group] = button.dataset.value ?? '';
+      for (const sibling of filters.querySelectorAll<HTMLButtonElement>(
+        `[data-filter="${group}"]`,
+      )) {
+        sibling.setAttribute('aria-pressed', String(sibling === button));
+      }
+      start();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      const target = event.target instanceof HTMLElement ? event.target : null;
+      const onButton = target?.closest('button');
+      // event.code is checked alongside event.key because some environments
+      // report a blank key for space.
+      const isSpace = event.key === ' ' || event.key === 'Spacebar' || event.code === 'Space';
+
+      if (isSpace) {
+        // A focused button already activates on space. Handling it here too
+        // would fire twice and cancel itself out, so let the native click win.
+        if (onButton) return;
+        event.preventDefault();
+        if (!queue.length) return;
+        setFlipped(!flipped);
+        return;
+      }
+
+      // Arrows rate the card from anywhere except the filter row, where they
+      // would fight with normal focus movement.
+      if (target?.closest('[data-filters]')) return;
+      if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        answer(true);
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+        event.preventDefault();
+        answer(false);
+      }
+    });
+
+    start();
+  }
+</script>
