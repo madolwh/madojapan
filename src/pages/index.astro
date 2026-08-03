@@ -19,14 +19,9 @@ const latest = lessons.slice(0, 3);
         lowercase everywhere, no exceptions. */}
     <h1 class="display-xl brand mt-10">madojapan</h1>
 
-    <p class="measure mt-10 text-lg leading-relaxed text-muted">
-      Short lessons, written for anyone learning Japanese — with the comparisons
-      a Singlish or Chinese speaker would actually notice.
-    </p>
-
     {
       latest.length > 0 && (
-        <ul class="mt-20 border-t border-rule">
+        <ul class="mt-16 border-t border-rule">
           {latest.map((lesson, i) => (
             <li class="border-b border-rule">
               <a
