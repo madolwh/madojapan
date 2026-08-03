@@ -11,7 +11,7 @@ level: beginner # still a guess — slang arguably isn't beginner material
 vocab:
   - kusa
 publishedAt: 2026-08-03
-draft: true # flip to false when you're ready to publish
+draft: false
 ---
 
 LOL in Japanese is 草. In Chinese, 草 is Fxck.
