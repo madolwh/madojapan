@@ -6,9 +6,10 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // PLACEHOLDER — this is the default Cloudflare Pages URL. Change it to the
-  // real domain before launch: it is the base for canonical tags, Open Graph
-  // URLs, the sitemap and the RSS feed, all of which need absolute URLs.
+  // The Cloudflare Pages URL, used deliberately until a custom domain exists.
+  // Base for canonical tags, Open Graph, the sitemap and the RSS feed, which
+  // all need absolute URLs. When a domain is bought, change this and the
+  // Sitemap line in public/robots.txt together — they must agree.
   site: 'https://madojapan.pages.dev',
 
   output: 'static',
