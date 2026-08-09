@@ -15,7 +15,7 @@ vocab:
   - tsundoku
   - mikagiru
 publishedAt: 2026-08-10
-draft: true # flip to false when you're happy with the writing
+draft: false
 ---
 
 Japanese finds beauty where most languages look away — in what fades, what
