@@ -102,7 +102,12 @@ if (missing.length > 0) {
                           ? 'clamp(3.25rem,10vw,7rem)'
                           : 'clamp(4rem,14vw,11rem)'
                     }`}>
-                    <span class="bg-marker px-4">{entry.data.term}</span>
+                    {/* inline-block, not inline: an inline background is sized
+                        by the font's em box, so kana with descenders (び, れ)
+                        spill out below the marker. */}
+                    <span class="bg-marker inline-block px-4 pt-2 pb-3 leading-none">
+                      {entry.data.term}
+                    </span>
                     <rp>(</rp>
                     <rt class="text-sm text-muted">{entry.data.reading}</rt>
                     <rp>)</rp>
