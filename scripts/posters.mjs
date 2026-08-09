@@ -4,7 +4,7 @@
 // Usage: node scripts/posters.mjs <lesson-slug>
 // Output: posters/<lesson-slug>/NN-*.html — render to PNG with headless Chrome.
 
-import { readFile, readdir, mkdir, writeFile, rm } from 'node:fs/promises';
+import { readFile, mkdir, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 import YAML from 'yaml';
 
@@ -90,26 +90,20 @@ const files = [];
 files.push([
   '01-title.html',
   shell(`${head}
-  <h1 style="margin-top:auto;font-size:118px;line-height:.94;letter-spacing:-.035em;
-    font-weight:700;text-transform:uppercase">${esc(lesson.data.title)}</h1>
-  <p style="margin-top:44px;font-size:32px;line-height:1.4;color:${T.muted};max-width:820px">
-    ${esc(lesson.data.summary)}</p>
+  <h1 style="margin-top:auto;margin-bottom:auto;font-size:132px;line-height:.92;
+    letter-spacing:-.04em;font-weight:700;text-transform:uppercase;color:${T.alert}">${esc(lesson.data.title)}</h1>
   ${foot(`${vocab.length} words`)}`),
 ]);
 
-// one poster per word
+// one poster per word — term, then the two meanings side by side. Nothing else.
 vocab.forEach((v, i) => {
   const n = String(i + 2).padStart(2, '0');
-  const note = v.chineseNote
-    ? `<div style="margin-top:48px;border-left:6px solid ${T.alert};padding-left:26px">
-         <p style="font-size:22px;font-weight:700;color:${T.alert};letter-spacing:.06em;
-           text-transform:uppercase">In Chinese</p>
-         <p style="margin-top:10px;font-size:31px;line-height:1.45">${esc(v.chineseNote)}</p>
-       </div>`
-    : '';
-  const desc = v.description
-    ? `<p style="margin-top:26px;font-size:30px;line-height:1.5;color:${T.muted}">${esc(v.description)}</p>`
-    : '';
+  const line = (label, value, colour) => `
+    <div style="margin-top:44px">
+      <p style="font-size:26px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+        color:${T.alert}">${label}</p>
+      <p style="margin-top:8px;font-size:60px;line-height:1.15;font-weight:700;color:${colour}">${value}</p>
+    </div>`;
 
   files.push([
     `${n}-${v.id}.html`,
@@ -122,10 +116,9 @@ vocab.forEach((v, i) => {
       <p style="margin-top:22px;font-size:24px;color:${T.muted};letter-spacing:.22em;
         text-transform:uppercase">${esc(v.romaji)}</p>
     </div>
-    <div style="margin-top:56px">
-      <p style="font-size:46px;line-height:1.25;font-weight:700">${esc(v.meaning)}</p>
-      ${desc}
-      ${note}
+    <div style="margin-top:auto">
+      ${line('In Japanese', esc(v.meaning), T.ink)}
+      ${v.chineseMeaning ? line('In Chinese', esc(v.chineseMeaning), T.ink) : ''}
     </div>
     ${foot(`${i + 1} / ${vocab.length}`)}`),
   ]);

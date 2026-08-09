@@ -69,7 +69,8 @@ meaning: string          # English — the short gloss
 description: string?     # the longer telling: what the word feels like
 register: enum           # 'casual' | 'polite' | 'slang' | 'formal'
 singlishEquivalent: string?
-chineseNote: string?     # for kanji-drift entries
+chineseNote: string?     # for kanji-drift entries — the full comparison
+chineseMeaning: string?  # a few words: the punchline version, used on posters
 ```
 
 ## Hard rules

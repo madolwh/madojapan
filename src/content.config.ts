@@ -39,7 +39,11 @@ const vocab = defineCollection({
     description: z.string().optional(),
     register: z.enum(['casual', 'polite', 'slang', 'formal']),
     singlishEquivalent: z.string().optional(),
+    // The full comparison, shown on the lesson page.
     chineseNote: z.string().optional(),
+    // A few words at most — the punchline version, used on posters where
+    // there is no room for the full note.
+    chineseMeaning: z.string().optional(),
   }),
 });
 
