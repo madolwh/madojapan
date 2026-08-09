@@ -108,9 +108,17 @@ if (missing.length > 0) {
                     <span class="bg-marker inline-block px-4 pt-2 pb-3 leading-none">
                       {entry.data.term}
                     </span>
-                    <rp>(</rp>
-                    <rt class="text-sm text-muted">{entry.data.reading}</rt>
-                    <rp>)</rp>
+                    {/* Kana-only terms read the same as their reading, so the
+                        furigana would just repeat the word above itself. */}
+                    {
+                      entry.data.reading !== entry.data.term && (
+                        <>
+                          <rp>(</rp>
+                          <rt class="text-sm text-muted">{entry.data.reading}</rt>
+                          <rp>)</rp>
+                        </>
+                      )
+                    }
                   </ruby>
                   <p class="mt-6 text-xs tracking-widest text-muted uppercase">
                     {entry.data.romaji}

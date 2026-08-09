@@ -1,7 +1,7 @@
 ---
 title: Japanese philosophy
 slug: japanese-philosophy
-summary: Four Japanese words that find beauty in things ending.
+summary: Japanese words for feelings English has no name for.
 category: philosophy
 level: intermediate # a guess — these are simple words about difficult ideas
 vocab:
@@ -9,6 +9,11 @@ vocab:
   - mono-no-aware
   - wabi-sabi
   - yugen
+  - amae
+  - yarusenai
+  - komorebi
+  - tsundoku
+  - mikagiru
 publishedAt: 2026-08-10
 draft: true # flip to false when you're happy with the writing
 ---
@@ -16,4 +21,5 @@ draft: true # flip to false when you're happy with the writing
 Japanese finds beauty where most languages look away — in what fades, what
 breaks, and what is left unsaid.
 
-Four words. Each one holds a whole way of seeing.
+Each of these holds a whole way of seeing — a feeling English can describe
+but has never bothered to name.
