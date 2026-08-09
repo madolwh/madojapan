@@ -65,7 +65,8 @@ Vocab entry schema:
 term: string             # the Japanese term
 reading: string          # kana reading
 romaji: string
-meaning: string          # English
+meaning: string          # English — the short gloss
+description: string?     # the longer telling: what the word feels like
 register: enum           # 'casual' | 'polite' | 'slang' | 'formal'
 singlishEquivalent: string?
 chineseNote: string?     # for kanji-drift entries

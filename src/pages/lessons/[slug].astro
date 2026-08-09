@@ -20,6 +20,18 @@ const { title, summary, category, level, videoUrl, audioUrl, vocab, publishedAt 
   lesson.data;
 const { Content } = await render(lesson);
 
+// Display size steps down as terms get longer. Without this a five-kana word
+// renders several times the width of a single kanji, and wraps inside its own
+// marker once it exceeds the column.
+const termSize = (term: string) =>
+  term.length >= 5
+    ? 'clamp(2rem,6vw,4rem)'
+    : term.length === 4
+      ? 'clamp(2.75rem,8vw,5.5rem)'
+      : term.length === 3
+        ? 'clamp(3.25rem,10vw,7rem)'
+        : 'clamp(4rem,14vw,11rem)';
+
 // reference() validates shape but not existence — a typo'd slug resolves to
 // null and would silently render a gap. Fail the build instead.
 const entries = await getEntries(vocab);
@@ -94,14 +106,8 @@ if (missing.length > 0) {
                       different on every row. */}
                   <ruby
                     lang="ja"
-                    class="leading-none"
-                    style={`font-size: ${
-                      entry.data.term.length >= 4
-                        ? 'clamp(2.75rem,8vw,5.5rem)'
-                        : entry.data.term.length === 3
-                          ? 'clamp(3.25rem,10vw,7rem)'
-                          : 'clamp(4rem,14vw,11rem)'
-                    }`}>
+                    class="leading-none whitespace-nowrap"
+                    style={`font-size: ${termSize(entry.data.term)}`}>
                     {/* inline-block, not inline: an inline background is sized
                         by the font's em box, so kana with descenders (び, れ)
                         spill out below the marker. */}
@@ -127,7 +133,11 @@ if (missing.length > 0) {
 
                 <dd class="measure">
                   <p class="text-2xl leading-snug">{entry.data.meaning}</p>
-                  <p class="mt-2 text-xs tracking-wide text-muted">{entry.data.register}</p>
+                  <p class="mt-1 text-xs tracking-wide text-muted">{entry.data.register}</p>
+
+                  {entry.data.description && (
+                    <p class="mt-5 leading-relaxed">{entry.data.description}</p>
+                  )}
 
                   {entry.data.singlishEquivalent && (
                     <div class="mt-6 border-l-2 border-tag pl-4">

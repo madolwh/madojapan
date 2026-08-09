@@ -29,6 +29,7 @@ const deck = vocab
     reading: entry.data.reading,
     romaji: entry.data.romaji,
     meaning: entry.data.meaning,
+    description: entry.data.description ?? null,
     register: entry.data.register,
     singlishEquivalent: entry.data.singlishEquivalent ?? null,
     chineseNote: entry.data.chineseNote ?? null,
@@ -146,6 +147,7 @@ const lessonOptions = lessons
                   <span data-back-romaji class="mt-1 text-xs tracking-widest text-muted uppercase" />
                   <span data-back-meaning class="mt-4 text-lg" />
                   <span data-back-register class="mt-1 text-xs text-muted" />
+                  <span data-back-description class="mt-4 text-sm leading-relaxed" hidden />
                   <span data-back-singlish class="mt-4 border-l-2 border-tag pl-3 text-sm" hidden />
                   <span data-back-chinese class="mt-4 border-l-2 border-alert pl-3 text-sm" hidden />
                 </span>
@@ -235,6 +237,7 @@ const lessonOptions = lessons
     reading: string;
     romaji: string;
     meaning: string;
+    description: string | null;
     register: string;
     singlishEquivalent: string | null;
     chineseNote: string | null;
@@ -319,6 +322,10 @@ const lessonOptions = lessons
       el('[data-back-romaji]').textContent = card.romaji;
       el('[data-back-meaning]').textContent = card.meaning;
       el('[data-back-register]').textContent = card.register;
+
+      const description = el('[data-back-description]');
+      description.hidden = !card.description;
+      description.textContent = card.description ?? '';
 
       const singlish = el('[data-back-singlish]');
       singlish.hidden = !card.singlishEquivalent;

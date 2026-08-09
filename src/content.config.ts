@@ -32,7 +32,11 @@ const vocab = defineCollection({
     term: z.string(),
     reading: z.string(),
     romaji: z.string(),
+    // meaning is the short gloss — what a dictionary would give you.
     meaning: z.string(),
+    // description is the longer telling: what the word actually feels like.
+    // Optional, because not every word needs one.
+    description: z.string().optional(),
     register: z.enum(['casual', 'polite', 'slang', 'formal']),
     singlishEquivalent: z.string().optional(),
     chineseNote: z.string().optional(),

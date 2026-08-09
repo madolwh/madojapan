@@ -7,8 +7,10 @@ const lessons = await getCollection(
   ({ data }) => import.meta.env.DEV || !data.draft,
 );
 
-lessons.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
-const latest = lessons.slice(0, 3);
+// Oldest first, so lesson 01 is the first published — the same numbering the
+// lessons index uses.
+lessons.sort((a, b) => a.data.publishedAt.getTime() - b.data.publishedAt.getTime());
+const shown = lessons.slice(0, 3);
 ---
 
 <BaseLayout
@@ -20,9 +22,9 @@ const latest = lessons.slice(0, 3);
     <h1 class="display-xl brand mt-10">madojapan</h1>
 
     {
-      latest.length > 0 && (
+      shown.length > 0 && (
         <ul class="mt-16 border-t border-rule">
-          {latest.map((lesson, i) => (
+          {shown.map((lesson, i) => (
             <li class="border-b border-rule">
               <a
                 href={`/lessons/${lesson.data.slug}`}

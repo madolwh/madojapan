@@ -7,7 +7,9 @@ const lessons = await getCollection(
   ({ data }) => import.meta.env.DEV || !data.draft,
 );
 
-lessons.sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+// Oldest first, so the numbering reads as a course: lesson 01 is the first
+// one published, not the most recent.
+lessons.sort((a, b) => a.data.publishedAt.getTime() - b.data.publishedAt.getTime());
 
 // Derived from the content, not hardcoded, so a new category can never
 // appear in a lesson without also appearing as a filter.
