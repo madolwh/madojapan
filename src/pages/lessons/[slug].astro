@@ -88,7 +88,20 @@ if (missing.length > 0) {
                 <dt class="text-center md:text-left">
                   {/* Furigana as semantic ruby. The marker sits on the base
                       only, so it does not wash over the reading above. */}
-                  <ruby lang="ja" class="text-[clamp(4rem,14vw,11rem)] leading-none">
+                  {/* Longer terms step down a size. Without this a four
+                      character phrase renders four times the width of a
+                      single kanji and the meaning column starts somewhere
+                      different on every row. */}
+                  <ruby
+                    lang="ja"
+                    class="leading-none"
+                    style={`font-size: ${
+                      entry.data.term.length >= 4
+                        ? 'clamp(2.75rem,8vw,5.5rem)'
+                        : entry.data.term.length === 3
+                          ? 'clamp(3.25rem,10vw,7rem)'
+                          : 'clamp(4rem,14vw,11rem)'
+                    }`}>
                     <span class="bg-marker px-4">{entry.data.term}</span>
                     <rp>(</rp>
                     <rt class="text-sm text-muted">{entry.data.reading}</rt>
