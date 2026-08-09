@@ -10,6 +10,10 @@ level: beginner # still a guess — slang arguably isn't beginner material
 # audioUrl: /audio/kusa.mp3       # optional, must live in public/audio/
 vocab:
   - kusa
+  - aijin
+  - jama
+  - musume
+  - tegami
 publishedAt: 2026-08-03
 draft: false
 ---
