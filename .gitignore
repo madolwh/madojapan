@@ -29,3 +29,6 @@ src/styles/fonts.css
 # installers and archives (contents already tracked)
 *.pkg
 files.zip
+
+# rendered poster PNGs — regenerate with scripts/posters.mjs + headless Chrome
+posters/**/*.png
