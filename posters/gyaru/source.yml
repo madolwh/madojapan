@@ -1,0 +1,34 @@
+# Poster-only content. Not a lesson yet — promote it into src/content/ if this
+# becomes a page. Edit here, then: node scripts/posters-phrases.mjs gyaru
+title: How to flirt with a Japanese gyaru
+tag: speaking
+closer:
+  question: 振られたら？
+  answer: 「あーね」って言って去る
+  english: Rejected? Say “ah-ne” and walk away.
+
+phrases:
+  - ja: 鬼可愛いんだけど！インスタ交換しません？
+    romaji: oni kawaii-n dakedo! insta koukan shimasen?
+    en: You're insanely cute — swap Instagram?
+    note: 鬼 means demon. Here it just means very.
+
+  - ja: 爪可愛すぎ！インスタ交換しません？
+    romaji: tsume kawai-sugi! insta koukan shimasen?
+    en: Your nails are too cute — swap Instagram?
+    note: Nails are never small talk. They are the whole conversation.
+
+  - ja: ワンチャン、LINE交換しない？
+    romaji: wanchan, LINE koukan shinai?
+    en: Any chance we could swap LINE?
+    note: ワンチャン is English one chance, worn down into maybe.
+
+  - ja: てか、モデルさん？
+    romaji: teka, moderu-san?
+    en: Wait — are you a model?
+    note: てか is a worn-down というか. Works in every language.
+
+  - ja: 今日めっちゃ盛れてるね！
+    romaji: kyou meccha moreteru ne!
+    en: You look unreal today.
+    note: 盛れてる is looking your absolute best. High praise.
