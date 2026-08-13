@@ -63,7 +63,7 @@ Vocab entry schema:
 
 ```yaml
 term: string             # the Japanese term
-reading: string          # kana reading
+reading: string?         # kana reading — omit for whole phrases
 romaji: string
 meaning: string          # English — the short gloss
 description: string?     # the longer telling: what the word feels like

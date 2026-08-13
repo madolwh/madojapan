@@ -20,6 +20,10 @@ const { title, summary, category, level, videoUrl, audioUrl, vocab, publishedAt 
   lesson.data;
 const { Content } = await render(lesson);
 
+// Anything this long is a sentence, not a word, and gets a different layout:
+// wrapping, no furigana, and set at reading size rather than display size.
+const isPhrase = (term: string) => term.length >= 8;
+
 // Display size steps down as terms get longer. Without this a five-kana word
 // renders several times the width of a single kanji, and wraps inside its own
 // marker once it exceeds the column.
@@ -96,42 +100,65 @@ if (missing.length > 0) {
         <dl>
           {
             entries.map((entry) => (
-              <div class="grid gap-8 border-b border-rule py-16 md:grid-cols-[1fr_1fr] md:items-center md:gap-16">
-                <dt class="text-center md:text-left">
-                  {/* Furigana as semantic ruby. The marker sits on the base
-                      only, so it does not wash over the reading above. */}
-                  {/* Longer terms step down a size. Without this a four
-                      character phrase renders four times the width of a
-                      single kanji and the meaning column starts somewhere
-                      different on every row. */}
-                  <ruby
-                    lang="ja"
-                    class="leading-none whitespace-nowrap"
-                    style={`font-size: ${termSize(entry.data.term)}`}>
-                    {/* inline-block, not inline: an inline background is sized
-                        by the font's em box, so kana with descenders (び, れ)
-                        spill out below the marker. */}
-                    <span class="bg-marker inline-block px-4 pt-2 pb-3 leading-none">
-                      {entry.data.term}
-                    </span>
-                    {/* Kana-only terms read the same as their reading, so the
-                        furigana would just repeat the word above itself. */}
-                    {
-                      entry.data.reading !== entry.data.term && (
-                        <>
-                          <rp>(</rp>
-                          <rt class="text-sm text-muted">{entry.data.reading}</rt>
-                          <rp>)</rp>
-                        </>
-                      )
-                    }
-                  </ruby>
-                  <p class="mt-6 text-xs tracking-widest text-muted uppercase">
+              <div
+                class:list={[
+                  'gap-8 border-b border-rule py-16',
+                  isPhrase(entry.data.term)
+                    ? 'block'
+                    : 'grid md:grid-cols-[1fr_1fr] md:items-center md:gap-16',
+                ]}>
+                <dt class:list={[isPhrase(entry.data.term) ? '' : 'text-center md:text-left']}>
+                  {
+                    isPhrase(entry.data.term) ? (
+                      /* A sentence gets set as a sentence: it wraps, it is not
+                         set at display size, and it carries no furigana —
+                         kana over a whole line is not how Japanese is
+                         annotated. box-decoration-break keeps the marker tight
+                         on every wrapped line. */
+                      <p
+                        lang="ja"
+                        class="text-[clamp(1.6rem,4.4vw,2.6rem)] leading-[1.75] font-bold">
+                        <span class="bg-marker box-decoration-clone px-3 py-1">
+                          {entry.data.term}
+                        </span>
+                      </p>
+                    ) : (
+                      /* Longer terms step down a size. Without this a four
+                         character word renders four times the width of a
+                         single kanji and the meaning column starts somewhere
+                         different on every row. */
+                      <ruby
+                        lang="ja"
+                        class="leading-none whitespace-nowrap"
+                        style={`font-size: ${termSize(entry.data.term)}`}>
+                        {/* inline-block, not inline: an inline background is
+                            sized by the font's em box, so kana with descenders
+                            (び, れ) spill out below the marker. */}
+                        <span class="bg-marker inline-block px-4 pt-2 pb-3 leading-none">
+                          {entry.data.term}
+                        </span>
+                        {/* Kana-only terms read the same as their reading, so
+                            the furigana would just repeat the word above. */}
+                        {entry.data.reading && entry.data.reading !== entry.data.term && (
+                          <>
+                            <rp>(</rp>
+                            <rt class="text-sm text-muted">{entry.data.reading}</rt>
+                            <rp>)</rp>
+                          </>
+                        )}
+                      </ruby>
+                    )
+                  }
+                  <p
+                    class:list={[
+                      'text-xs tracking-widest text-muted uppercase',
+                      isPhrase(entry.data.term) ? 'mt-4' : 'mt-6',
+                    ]}>
                     {entry.data.romaji}
                   </p>
                 </dt>
 
-                <dd class="measure">
+                <dd class:list={['measure', isPhrase(entry.data.term) && 'mt-8']}>
                   <p class="text-2xl leading-snug">{entry.data.meaning}</p>
                   <p class="mt-1 text-xs tracking-wide text-muted">{entry.data.register}</p>
 

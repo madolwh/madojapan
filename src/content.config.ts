@@ -30,7 +30,9 @@ const vocab = defineCollection({
   loader: glob({ base: './src/content/vocab', pattern: '**/*.md' }),
   schema: z.object({
     term: z.string(),
-    reading: z.string(),
+    // Optional: a whole phrase has no single furigana reading, and printing
+    // kana over a full sentence is not how Japanese is annotated.
+    reading: z.string().optional(),
     romaji: z.string(),
     // meaning is the short gloss — what a dictionary would give you.
     meaning: z.string(),

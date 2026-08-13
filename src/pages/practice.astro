@@ -137,7 +137,7 @@ const lessonOptions = lessons
               class="mt-3 block w-full cursor-pointer border border-rule p-6 text-left">
               <span class="flip block min-h-56">
                 <span class="face face-front flex min-h-56 flex-col items-center justify-center">
-                  <span lang="ja" data-front-term class="text-7xl leading-none" />
+                  <span lang="ja" data-front-term class="leading-tight" />
                   <span class="mt-6 text-xs text-muted">tap or press space to flip</span>
                 </span>
                 <span
@@ -317,7 +317,11 @@ const lessonOptions = lessons
       done.hidden = true;
       setFlipped(false);
 
-      el('[data-front-term]').textContent = card.term;
+      const frontTerm = el('[data-front-term]');
+      frontTerm.textContent = card.term;
+      // A whole phrase cannot be set at display size inside the card.
+      frontTerm.style.fontSize =
+        card.term.length >= 8 ? '1.75rem' : card.term.length >= 4 ? '3rem' : '4.5rem';
       el('[data-back-reading]').textContent = card.reading;
       el('[data-back-romaji]').textContent = card.romaji;
       el('[data-back-meaning]').textContent = card.meaning;
