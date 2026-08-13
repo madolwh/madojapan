@@ -12,7 +12,7 @@ vocab:
   - moreteru
   - aane
 publishedAt: 2026-08-11
-draft: true # flip to false when you're happy with the writing
+draft: false
 ---
 
 Gyaru speech runs on worn-down words. 鬼 stops meaning demon and starts
