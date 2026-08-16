@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Manual for now. Astro cannot enumerate .astro pages the way it enumerates a
+// content collection, so this list is maintained by hand until there are
+// enough analyses to justify moving them into src/content/.
+const analyses = [
+  {
+    href: '/research/foreign-language-effect',
+    title: 'The foreign language effect',
+    summary:
+      'Four claims about why you are braver in Japanese, sorted by how much evidence actually stands behind each one.',
+    figures: 4,
+  },
+];
+---
+
+<BaseLayout
+  title="Analysis"
+  description="Longer pieces on how Japanese works, with the evidence graded.">
+  <div class="wrap">
+    <h1 class="display-xl mt-8 mb-10">Analysis</h1>
+
+    <p class="measure text-lg leading-relaxed text-muted">
+      Longer pieces than the lessons. Every number sourced, and the weak
+      evidence labelled as weak.
+    </p>
+
+    <ul class="mt-16 border-t border-rule">
+      {
+        analyses.map((a, i) => (
+          <li class="border-b border-rule">
+            <a
+              href={a.href}
+              class="group grid grid-cols-1 gap-3 py-7 md:grid-cols-[4rem_1fr_18rem] md:items-baseline md:gap-8">
+              <span class="text-xs text-muted tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h2 class="display-lg group-hover:text-alert">{a.title}</h2>
+              <span class="flex flex-col gap-3">
+                <span class="bg-tag self-start px-2 py-0.5 text-xs">
+                  {a.figures} figures
+                </span>
+                <span class="text-sm leading-relaxed text-muted">{a.summary}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

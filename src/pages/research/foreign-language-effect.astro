@@ -52,7 +52,10 @@ const mechanisms = [
 <BaseLayout
   title="The foreign language effect"
   description="What the research actually shows about why a second language makes you bolder — and where the evidence stops.">
-  <div class="wrap">
+  {/* Without data-pagefind-body this page is invisible to site search —
+      Pagefind only indexes pages that opt in. */}
+  <div class="wrap" data-pagefind-body>
+    <span data-pagefind-meta="category:analysis" hidden></span>
     <p class="text-xs tracking-widest text-alert uppercase">Analysis</p>
     <h1 class="display-xl mt-4">The foreign language effect</h1>
     <p class="measure mt-8 text-lg leading-relaxed text-muted">
