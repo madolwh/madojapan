@@ -140,6 +140,15 @@ mark {
   color: var(--color-ink);
 }
 
+/* Charts hold a minimum drawing width and scroll inside their own box.
+   Letting an 800-unit viewBox shrink to a 375px screen renders axis labels
+   at around 5px, which is unreadable — and the page itself must never
+   scroll sideways. */
+.chart-scroll {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
 /* Filter chips. The label is deliberately small, but min-height keeps the
    hit area at 44px — below that they are unreliable to tap on a phone. */
 .chip {

@@ -15,6 +15,9 @@ vocab:
 draft: true # DRAFT — Claude's prose. Read before publishing.
 ---
 
+*The charts and the evidence grading live in the
+[full analysis](/research/foreign-language-effect).*
+
 Most learners notice it eventually. You say something in Japanese you would
 never say in your first language. You ask the question. You approach the
 stranger. You are, briefly, a slightly braver person.

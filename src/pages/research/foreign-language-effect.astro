@@ -1,0 +1,307 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Brand tokens, matching src/styles/global.css.
+const INK = '#0a0a0a';
+const MUTED = '#71717a';
+const RULE = '#e4e4e7';
+const ALERT = '#d90000';
+const MARKER = '#ffea93';
+
+// --- Chart 2 geometry: odds ratios are multiplicative, so the axis is log ---
+const AX_LO = 0.25;
+const AX_HI = 6.5;
+const PLOT_L = 70;
+const PLOT_W = 690;
+const lg = (v: number) =>
+  PLOT_L + ((Math.log(v) - Math.log(AX_LO)) / (Math.log(AX_HI) - Math.log(AX_LO))) * PLOT_W;
+const ticks = [0.25, 0.5, 1, 2, 4, 6];
+
+const mechanisms = [
+  {
+    ja: '心理的距離',
+    en: 'Psychological distance',
+    what: 'Second-language words carry less emotional charge than the ones learned in childhood.',
+    evidence: 'measured',
+    note: 'Skin-conductance studies show weaker physical response to taboo words in a second language.',
+  },
+  {
+    ja: '意識的処理',
+    en: 'Deliberate processing',
+    what: 'A foreign language will not run on autopilot, which widens the gap between impulse and speech.',
+    evidence: 'measured',
+    note: 'Consistent with dual-process accounts, though the mechanism is inferred rather than isolated.',
+  },
+  {
+    ja: '社会的自己',
+    en: 'Distance from the social self',
+    what: 'Japanese was not present when your social roles were formed, so it sits outside them.',
+    evidence: 'proposed',
+    note: 'Well argued in the qualitative literature; not directly tested by the decision studies.',
+  },
+  {
+    ja: '失敗の許可',
+    en: 'Permission to fail',
+    what: 'A learner is held to a lower standard and knows it. Errors read as learning, not as carelessness.',
+    evidence: 'untested',
+    note: 'Not part of the foreign-language-effect literature at all. The only one of the four that is about speaking.',
+  },
+];
+---
+
+<BaseLayout
+  title="The foreign language effect"
+  description="What the research actually shows about why a second language makes you bolder — and where the evidence stops.">
+  <div class="wrap">
+    <p class="text-xs tracking-widest text-alert uppercase">Analysis</p>
+    <h1 class="display-xl mt-4">The foreign language effect</h1>
+    <p class="measure mt-8 text-lg leading-relaxed text-muted">
+      Four claims about why you are braver in Japanese, sorted by how much
+      evidence actually stands behind each one.
+    </p>
+
+    {/* ---------------- 1. What the bias looks like ---------------- */}
+    <section class="mt-24 border-t border-rule pt-10">
+      <p class="text-xs tracking-widest text-alert uppercase">Figure 01</p>
+      <h2 class="mt-3 text-2xl font-bold">The bias this research was built on</h2>
+      <p class="measure mt-4 leading-relaxed">
+        Keysar, Hayakawa and An (2012) gave people the Asian disease problem —
+        identical odds, described once as lives saved and once as lives lost.
+        In their <strong>native language</strong>, the wording moved them
+        thirty points.
+      </p>
+
+      <div class="chart-scroll mt-10">
+
+      <svg
+        viewBox="0 0 800 300"
+        class="w-full min-w-[700px]"
+        role="img"
+        aria-labelledby="fig1-t fig1-d">
+        <title id="fig1-t">Framing effect in a native language</title>
+        <desc id="fig1-d">
+          In the native-language condition, 77% chose the sure option when the
+          problem was framed as lives saved, but only 47% when the same problem
+          was framed as lives lost — a 30 point gap.
+        </desc>
+
+        <line x1="70" y1="240" x2="770" y2="240" stroke={RULE} stroke-width="1" />
+
+        {/* gain frame */}
+        <rect x="120" y={240 - 1.9 * 77} width="150" height={1.9 * 77} fill={INK} />
+        <text x="195" y={240 - 1.9 * 77 - 14} text-anchor="middle" font-size="30" font-weight="700" fill={INK}>77%</text>
+        <text x="195" y="265" text-anchor="middle" font-size="17" fill={MUTED}>framed as lives saved</text>
+
+        {/* loss frame */}
+        <rect x="330" y={240 - 1.9 * 47} width="150" height={1.9 * 47} fill={INK} />
+        <text x="405" y={240 - 1.9 * 47 - 14} text-anchor="middle" font-size="30" font-weight="700" fill={INK}>47%</text>
+        <text x="405" y="265" text-anchor="middle" font-size="17" fill={MUTED}>framed as lives lost</text>
+
+        {/* the gap */}
+        <line x1="500" y1={240 - 1.9 * 77} x2="500" y2={240 - 1.9 * 47} stroke={ALERT} stroke-width="3" />
+        <line x1="490" y1={240 - 1.9 * 77} x2="510" y2={240 - 1.9 * 77} stroke={ALERT} stroke-width="3" />
+        <line x1="490" y1={240 - 1.9 * 47} x2="510" y2={240 - 1.9 * 47} stroke={ALERT} stroke-width="3" />
+        <text x="525" y={240 - 1.9 * 62 + 6} font-size="19" font-weight="700" fill={ALERT}>
+          30 points of pure wording
+        </text>
+
+        <text x="70" y="24" font-size="16" fill={MUTED}>chose the guaranteed option — native language</text>
+      </svg>
+      </div>
+
+      <p class="measure mt-8 leading-relaxed">
+        Asked in a <strong>foreign language</strong>, that gap did not hold up.
+        The published paper reports the difference as no longer reliable rather
+        than as a second pair of percentages, so there is nothing honest to draw
+        beside these bars — which is itself worth noticing.
+      </p>
+    </section>
+
+    {/* ---------------- 2. The meta-analysis ---------------- */}
+    <section class="mt-24 border-t border-rule pt-10">
+      <p class="text-xs tracking-widest text-alert uppercase">Figure 02</p>
+      <h2 class="mt-3 text-2xl font-bold">What 13,886 people actually show</h2>
+      <p class="measure mt-4 leading-relaxed">
+        Circi, Gatti, Russo and Vecchi (2021) pooled <strong>91 experiments</strong> across
+        15 papers. The effect is real. It is also small, and the spread between
+        studies is wide enough that the next one could find nothing.
+      </p>
+
+      <div class="chart-scroll mt-10">
+
+      <svg
+        viewBox="0 0 800 260"
+        class="w-full min-w-[700px]"
+        role="img"
+        aria-labelledby="fig2-t fig2-d">
+        <title id="fig2-t">Pooled odds ratio and prediction interval</title>
+        <desc id="fig2-d">
+          The pooled odds ratio is 1.34 with a 95% confidence interval from 1.10
+          to 1.60, sitting to the right of the no-effect line at 1.0. The
+          prediction interval runs from 0.29 to 6.11 and crosses the no-effect
+          line, meaning a future study could plausibly find no effect at all.
+        </desc>
+
+        {/* axis */}
+        <line x1={PLOT_L} y1="200" x2={PLOT_L + PLOT_W} y2="200" stroke={RULE} stroke-width="1" />
+        {
+          ticks.map((t) => (
+            <>
+              <line x1={lg(t)} y1="200" x2={lg(t)} y2="207" stroke={RULE} stroke-width="1" />
+              <text x={lg(t)} y="226" text-anchor="middle" font-size="16" fill={MUTED}>
+                {t}
+              </text>
+            </>
+          ))
+        }
+
+        {/* no-effect line */}
+        <line x1={lg(1)} y1="40" x2={lg(1)} y2="200" stroke={INK} stroke-width="2" stroke-dasharray="5 5" />
+        <text x={lg(1)} y="32" text-anchor="middle" font-size="16" font-weight="700" fill={INK}>
+          no effect
+        </text>
+
+        {/* prediction interval — the honest one */}
+        <rect x={lg(0.29)} y="120" width={lg(6.11) - lg(0.29)} height="30" fill={MARKER} />
+        <text x={lg(0.29)} y="168" font-size="16" fill={MUTED}>
+          prediction interval 0.29 – 6.11 · where the next study could land
+        </text>
+
+        {/* pooled effect + CI */}
+        <line x1={lg(1.1)} y1="80" x2={lg(1.6)} y2="80" stroke={INK} stroke-width="4" />
+        <line x1={lg(1.1)} y1="70" x2={lg(1.1)} y2="90" stroke={INK} stroke-width="4" />
+        <line x1={lg(1.6)} y1="70" x2={lg(1.6)} y2="90" stroke={INK} stroke-width="4" />
+        <circle cx={lg(1.34)} cy="80" r="9" fill={ALERT} />
+        <text x={lg(1.34)} y="60" text-anchor="middle" font-size="18" font-weight="700" fill={ALERT}>
+          1.34
+        </text>
+        <text x={lg(1.6) + 16} y="86" font-size="16" fill={MUTED}>95% CI 1.10 – 1.60</text>
+
+        <text x={PLOT_L} y="250" font-size="17" fill={MUTED}>
+          odds ratio, log scale · k = 91 experiments · N = 13,886 · I² = 72.8%
+        </text>
+      </svg>
+      </div>
+
+      <div class="measure mt-8 border-l-2 border-alert pl-4">
+        <p class="text-xs font-bold tracking-wide text-alert uppercase">Read the yellow band</p>
+        <p class="mt-2 leading-relaxed">
+          The black bar is where the average sits. The yellow band is where a new
+          study would plausibly land — and it crosses the no-effect line. The
+          authors call it a <strong>"small but significant"</strong> effect. It is
+          not nothing, and it is not the personality transplant the popular
+          write-ups imply.
+        </p>
+      </div>
+    </section>
+
+    {/* ---------------- 3. Mechanism model ---------------- */}
+    <section class="mt-24 border-t border-rule pt-10">
+      <p class="text-xs tracking-widest text-alert uppercase">Figure 03</p>
+      <h2 class="mt-3 text-2xl font-bold">Four explanations, sorted by evidence</h2>
+      <p class="measure mt-4 leading-relaxed">
+        Three come from the literature. The fourth does not — and it is the only
+        one that is actually about speaking.
+      </p>
+
+      <ol class="mt-10 border-t border-rule">
+        {
+          mechanisms.map((m, i) => (
+            <li class="grid gap-4 border-b border-rule py-8 md:grid-cols-[3rem_16rem_1fr] md:gap-8">
+              <span class="text-xs text-muted tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <p lang="ja" class="text-3xl leading-tight font-bold">{m.ja}</p>
+                <p class="mt-2 text-sm text-muted">{m.en}</p>
+                <span
+                  class:list={[
+                    'mt-3 inline-block px-2 py-0.5 text-xs',
+                    m.evidence === 'measured' && 'bg-tag',
+                    m.evidence === 'proposed' && 'bg-marker',
+                    m.evidence === 'untested' && 'bg-alert text-paper',
+                  ]}>
+                  {m.evidence}
+                </span>
+              </div>
+              <div>
+                <p class="leading-relaxed">{m.what}</p>
+                <p class="mt-3 text-sm leading-relaxed text-muted">{m.note}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    {/* ---------------- 4. The gap ---------------- */}
+    <section class="mt-24 border-t border-rule pt-10">
+      <p class="text-xs tracking-widest text-alert uppercase">Figure 04</p>
+      <h2 class="mt-3 text-2xl font-bold">The leap nobody has tested</h2>
+
+      <div class="chart-scroll mt-10">
+
+      <svg
+        viewBox="0 0 800 220"
+        class="w-full min-w-[700px]"
+        role="img"
+        aria-labelledby="fig4-t fig4-d">
+        <title id="fig4-t">The gap between what was measured and what is claimed</title>
+        <desc id="fig4-d">
+          The studies measured framing bias and moral choices. The popular claim
+          is about confidence in conversation. No study measured the second, so
+          the link between them is an inference, not a finding.
+        </desc>
+
+        <rect x="20" y="50" width="300" height="110" fill="none" stroke={INK} stroke-width="2" />
+        <text x="40" y="84" font-size="17" font-weight="700" fill={INK}>What was measured</text>
+        <text x="40" y="112" font-size="17" fill={MUTED}>framing bias</text>
+        <text x="40" y="136" font-size="17" fill={MUTED}>moral dilemmas</text>
+
+        <rect x="480" y="50" width="300" height="110" fill="none" stroke={ALERT} stroke-width="2" stroke-dasharray="6 5" />
+        <text x="500" y="84" font-size="17" font-weight="700" fill={ALERT}>What people claim</text>
+        <text x="500" y="112" font-size="17" fill={MUTED}>confidence speaking</text>
+        <text x="500" y="136" font-size="17" fill={MUTED}>social courage</text>
+
+        <line x1="330" y1="105" x2="470" y2="105" stroke={ALERT} stroke-width="2" stroke-dasharray="6 5" />
+        <polygon points="470,105 458,99 458,111" fill={ALERT} />
+        <text x="400" y="90" text-anchor="middle" font-size="16" font-weight="700" fill={ALERT}>inference</text>
+        <text x="400" y="132" text-anchor="middle" font-size="17" fill={MUTED}>not a finding</text>
+      </svg>
+      </div>
+
+      <p class="measure mt-8 leading-relaxed">
+        Every study here measured a decision on paper. None measured whether you
+        felt brave enough to speak. The bridge is plausible — and it is the part
+        of the argument doing the most work while carrying the least support.
+      </p>
+    </section>
+
+    {/* ---------------- sources ---------------- */}
+    <section class="mt-24 border-t border-rule pt-10">
+      <h2 class="text-2xl font-bold">Sources</h2>
+      <ul class="measure mt-6 space-y-4 text-sm leading-relaxed text-muted">
+        <li>
+          Keysar, Hayakawa &amp; An (2012). <em>The Foreign-Language Effect: Thinking
+          in a Foreign Tongue Reduces Decision Biases.</em> Psychological Science
+          23(6), 661–668. Figure 01 uses the Experiment 1a native-language
+          percentages.
+        </li>
+        <li>
+          Circi, Gatti, Russo &amp; Vecchi (2021). <em>The foreign language effect on
+          decision-making: a meta-analysis.</em> Psychonomic Bulletin &amp; Review.
+          All figures in 02 are from this paper.
+        </li>
+        <li>
+          Costa et al. (2014). <em>Your Morals Depend on Language.</em> PLOS ONE.
+        </li>
+        <li>
+          Caldwell-Harris &amp; Ayçiçeği-Dinn (2009), on emotional reactivity in a
+          first versus second language.
+        </li>
+      </ul>
+    </section>
+
+    <p class="mt-16">
+      <a href="/lessons" class="border-b border-alert pb-0.5 text-sm text-alert">All lessons</a>
+    </p>
+  </div>
+</BaseLayout>
