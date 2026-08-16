@@ -95,7 +95,12 @@ if (missing.length > 0) {
         </div>
       </div>
 
-      <section class="mt-24 border-t border-rule" aria-labelledby="vocab-heading">
+      {/* An essay-style lesson can legitimately have no vocab; without this
+          it would render an empty bordered section. */}
+      <section
+        class="mt-24 border-t border-rule"
+        aria-labelledby="vocab-heading"
+        hidden={entries.length === 0}>
         <h2 id="vocab-heading" class="sr-only">Vocab</h2>
         <dl>
           {
