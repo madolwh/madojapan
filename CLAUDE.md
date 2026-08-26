@@ -20,29 +20,80 @@ editorial voice, not a limit on who it's for.
 **The site's one job:** a visitor lands on a lesson, understands one thing,
 and can immediately drill it as a flashcard.
 
+**Live at:** https://madojapan.pages.dev (Cloudflare Pages, auto-deploys from
+`main` on GitHub — `madolwh/madojapan`). No custom domain yet.
+
 ## Stack — do not change without asking
 
-- **Astro** (static output, `output: 'static'`)
+- **Astro 7** (static output, `output: 'static'`)
 - **Content Collections** with Zod schema for all lessons and vocab
 - **Vanilla TS islands** for interactivity — no React, no framework
-- **Tailwind** for styling
+- **Tailwind 4**, via the `@tailwindcss/vite` plugin (not the deprecated
+  `@astrojs/tailwind` integration)
+- **Pagefind** for search, indexed at build time after `astro build`
 - **No backend, no database, no auth, no user accounts**
-- Deploy target: Cloudflare Pages
+- Node 22 (`.nvmrc`), matching the Cloudflare Pages build image
 
 If a task seems to need a server, a database, or a login — stop and flag it.
 The answer is almost certainly a different approach.
+
+### Commands
+
+```
+npm run dev       # predev subsets fonts first
+npm run build     # prebuild subsets fonts, then astro build + pagefind
+npm run preview   # serves dist/ — the only way to test search
+npm run check     # astro check
+npm run fonts     # regenerate the font subset by hand
+```
+
+Pagefind only runs in `build`, so **search is dead on the dev server**. Test it
+against `npm run preview`. Two launch configs exist in `.claude/launch.json`:
+`madojapan-dev` (4321) and `madojapan-preview` (4322).
+
+## File structure
+
+```
+src/
+  content.config.ts        # both collection schemas — the source of truth
+  content/
+    lessons/               # one .md per lesson, authored by hand
+    vocab/                 # one .md per word or phrase
+  layouts/BaseLayout.astro # head, SEO, OG, skip link, header/footer
+  components/              # Header.astro, Footer.astro — that's all
+  pages/
+    index.astro            # home
+    lessons/index.astro    # listing + category/level filtering
+    lessons/[slug].astro   # the lesson page
+    practice.astro         # the flashcard deck — the ONLY interactive route
+    research/index.astro   # analysis listing (hand-maintained, see below)
+    research/foreign-language-effect.astro
+    search.astro           # Pagefind UI
+    rss.xml.ts, 404.astro
+  styles/global.css        # tokens + every non-Tailwind rule
+scripts/
+  subset-fonts.mjs         # prebuild/predev: trims @font-face, subsets glyphs
+  posters.mjs              # 1080×1350 word posters from real content files
+  posters-phrases.mjs      # same, for phrase-shaped lessons
+posters/                   # generated HTML; PNGs are gitignored
+public/
+  audio/                   # hard rule 2 — local audio only
+  favicon.svg, robots.txt
+```
+
+Generated and gitignored: `public/fonts/`, `src/styles/fonts.css`,
+`posters/**/*.png`, `dist/`, `.astro/`. All reproducible — never hand-edit.
+
+**`/research/` pages are `.astro`, not content collection entries**, and
+`research/index.astro` lists them from a hand-maintained array. Adding an
+analysis means adding it to that array too, or the page ships unreachable —
+which has happened once already.
 
 ## Content model
 
 Lessons are markdown files. I author these by hand. **Never** invent lesson
 content or vocab pairs — if content is missing, scaffold the file with clearly
 marked `TODO` placeholders and tell me what to fill in.
-
-```
-src/content/
-  lessons/          # one .md per lesson
-  vocab/            # one .md per word (or a single .json per lesson group)
-```
 
 Lesson frontmatter schema:
 
@@ -73,6 +124,18 @@ chineseNote: string?     # for kanji-drift entries — the full comparison
 chineseMeaning: string?  # a few words: the punchline version, used on posters
 ```
 
+Rules the schema can't express:
+
+- **`chineseNote` belongs to lesson 01 only.** It is the kanji-drift joke, not
+  a field every word fills in.
+- **A vocab entry joins the practice deck by being referenced from a published
+  lesson.** Orphans stay out. Delete the reference and it leaves the deck.
+- **`reference()` validates shape, not existence.** A typo'd slug builds clean
+  and resolves to `null`. `[slug].astro` throws on missing references — keep
+  that guard.
+- **Lesson numbers on the listing are positions, not IDs.** Publishing a new
+  lesson renumbers every other one. See the to-do list.
+
 ## Hard rules
 
 1. **Video is linked, never embedded.** No iframes, no platform SDKs.
@@ -87,6 +150,9 @@ chineseMeaning: string?  # a few words: the punchline version, used on posters
 5. **Japanese text needs proper font stack and `lang="ja"`** on any element
    containing Japanese, for correct glyph rendering and screen readers.
 6. **Furigana** uses semantic `<ruby>` markup, not styled spans.
+
+Rule 4 is verified, not assumed: production lesson pages ship **0 script
+tags**. Check it after any change that adds interactivity to a lesson.
 
 ## Flashcard behaviour
 
@@ -104,19 +170,75 @@ Do not build a persistent SRS algorithm (SM-2, Anki-style intervals). Without
 accounts there is nowhere to store the intervals. If I ask for one, remind me
 of this.
 
+**Two flip cards exist, deliberately.** `/practice` is the real deck (TS
+island). The demo card inside `six-things-no-tutor` is CSS-only — a
+visually-hidden `<input type=checkbox>` plus an adjacent `<label>`, driven by
+`.flipcard-toggle:checked + .flipcard-inner`. That keeps rule 4 intact and
+gets spacebar for free as native checkbox behaviour. The checkbox must stay
+focusable — hide it with `opacity` and size, never `display: none`.
+
+`backface-visibility: hidden` hides a face **visually but not from screen
+readers**. `/practice` toggles `aria-hidden` to fix that. CSS alone cannot, so
+the demo card's answer stays readable to AT — acceptable there because the
+answer is in the surrounding prose anyway.
+
 ## Design direction
 
-Not yet locked. When building UI, propose a small token set (4-6 hex values,
-2 typefaces) and get approval before applying it site-wide. Avoid: warm cream
-backgrounds with a terracotta accent, and cherry-blossom-pink "Japan" clichés.
+Locked. Swiss/modernist, type-led, light only — `color-scheme: light`, never
+follows the OS dark preference.
 
-Constraints that are locked:
-- The brand name is set lowercase everywhere. Do not let a CSS
-  `text-transform: capitalize` or a title-case utility override it.
-- Japanese characters are the visual hero — set them large, with real breathing
+**Palette** (Tailwind tokens in `@theme`, `src/styles/global.css`):
+
+| Token     | Hex       | Use                                      |
+| --------- | --------- | ---------------------------------------- |
+| `paper`   | `#FFFFFF` | background                               |
+| `ink`     | `#0A0A0A` | body text                                |
+| `muted`   | `#71717A` | secondary text, metadata                 |
+| `rule`    | `#E4E4E7` | hairlines, borders, chip outlines        |
+| `alert`   | `#D90000` | links, focus rings, poster headers       |
+| `marker`  | `#FFEA93` | highlight behind Japanese terms, `<mark>` |
+| `tag`     | `#8DB355` | category chips                           |
+
+**Type:** Inter Variable (Latin) + Noto Sans JP Variable (Japanese), both
+shipped as webfonts. System stacks were tried and rejected — Apple, Windows
+and Android license different fonts, so the same page renders differently on
+each. Noto sits in the sans stack too, because Inter has no CJK and Japanese
+inside English prose would otherwise drop to a system gothic and stop matching
+the hero.
+
+`scripts/subset-fonts.mjs` keeps only the `@font-face` blocks the site's
+characters need and glyph-subsets each file: **223KB → 36KB**. It always
+includes a Latin baseline, because the search box echoes arbitrary typed input.
+
+**Locked constraints:**
+
+- The brand name is lowercase everywhere. `.brand` uses
+  `text-transform: lowercase !important` so it survives being nested inside
+  `.display` or any future uppercase utility. Do not remove the `!important`.
+- Japanese characters are the visual hero — set large, with real breathing
   room. The type *is* the design.
-- The English body face and the Japanese face must be paired deliberately, not
-  left to a fallback.
+- Display type scales with `clamp()`, not breakpoint steps — `.display-xl`,
+  `.display-lg`.
+- Avoid: warm cream + terracotta, cherry-blossom pink.
+
+## Traps that have already cost time
+
+- **Blank lines end a raw-HTML block in CommonMark.** An HTML block inside a
+  markdown lesson terminates at the first blank line, and everything after it
+  gets parsed as markdown — which strips SVG `<text>` tags and leaks stray
+  `<p>` siblings. Squeeze blank lines out of embedded HTML. This has bitten
+  twice.
+- **An unbalanced `</div>` in a lesson silently swallows later sections.** The
+  build passes, the page renders, and a third of the content is gone. Verify
+  tag balance, and check rendered `<h2>`s rather than trusting a clean build.
+- **CSS Grid items default to `min-width: auto`** and won't shrink below their
+  content. Wide SVGs expand the track and the page scrolls sideways. Fix goes
+  on the grid *item* (`min-w-0`), not the container.
+- **Wide charts need `.chart-scroll` + a `min-w-[700px]` inner.** An 800-unit
+  viewBox squeezed to 375px renders axis labels at ~5px.
+- **Never trust one measurement in the browser pane.** A collapsed pane
+  (`innerWidth: 0`), a mid-transition `transform` read, or stale dev CSS after
+  a rebuild all produce confident nonsense. Re-measure before acting.
 
 ## Working style
 
@@ -125,3 +247,48 @@ Constraints that are locked:
 - When a task is ambiguous, ask one question rather than guessing and building
   the wrong thing.
 - Prefer deleting code over adding flags to it.
+
+## Status
+
+### Done
+
+- Scaffold, schemas, both collections, static build to Cloudflare Pages
+- Lesson page: display-size terms, phrase vs word layouts, furigana, marker
+- Lessons index with category and level filtering
+- `/practice` — working stateless deck, keyboard, reduced-motion
+- Pagefind search at `/search`, plus a race-condition fix on fast typing
+- SEO: sitemap, RSS, canonical, OG, 404
+- Font subsetting; Lighthouse 100s across all pages
+- Lesson 01 `kusa` — Japanese words that are insults in Chinese
+- Lesson 02 `japanese-philosophy` — 9 words
+- Lesson 03 `gyaru-flirting` — 6 phrases
+- Lesson `six-things-no-tutor` — the study guide, with 3 SVG diagrams, a
+  working CSS-only flip card, and a generated weekly plan + 28-day tracker
+- `/research/foreign-language-effect` — 4 figures, sourced numbers
+- Poster generators for Instagram carousels (kusa, gyaru)
+
+### Open decisions — mine, waiting on me
+
+- **binjō (便乗) and 他人の飯を食う were left out** of lesson 02. Neither means
+  what my source list claimed: 便乗 is bandwagon-jumping, not the sidewalk
+  shuffle; 他人の飯を食う is leaving home to learn life's hardships, not
+  enjoying someone else's cooking. Decide whether to include with the correct
+  meanings or drop them.
+- **`foreign-language-effect.md` is still `draft: true`** and duplicates the
+  prose on `/research/foreign-language-effect`. Trim it to a pointer, or drop
+  the lesson.
+- **`level` on `kusa` and `six-things-no-tutor` is a guess**, flagged in the
+  frontmatter. Confirm or change.
+- **「あーね」って言って去る sits in the practice deck** but it's a punchline,
+  not vocabulary. Consider pulling it.
+
+### To build
+
+- **`lessonNumber` in frontmatter.** Listing numbers are currently list
+  positions, so publishing renumbers everything. A stable field fixes it.
+- Custom domain — when bought, change `site` in `astro.config.mjs` and the
+  `Sitemap:` line in `public/robots.txt` **together**; they must agree.
+- No audio on any lesson yet; `public/audio/` is empty.
+- No `videoUrl` set on any lesson yet.
+- Categories `singlish`, `kanji` and `travel` exist in the schema but have no
+  lessons.
