@@ -140,14 +140,21 @@ mark {
   color: var(--color-ink);
 }
 
-/* Charts hold a minimum drawing width and scroll inside their own box.
-   Letting an 800-unit viewBox shrink to a 375px screen renders axis labels
-   at around 5px, which is unreadable — and the page itself must never
-   scroll sideways. */
-.chart-scroll {
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-}
+/* .chart-scroll is deliberately gone. It wrapped every figure in an
+   overflow-x:auto box so wide drawings could scroll rather than overflow the
+   page. Two things killed it:
+
+   1. The figures are drawn portrait now and fit a 375px screen, so nothing
+      needed scrolling any more.
+   2. It silently broke scroll-driven animation. Setting overflow on one axis
+      forces the other to compute as auto, so the wrapper became a scroll
+      container — and view() resolves against the nearest one. Its scrollport
+      was exactly as tall as its content, giving a timeline with no range, so
+      every animation inside held its start frame forever. That renders a
+      fade-in as permanently invisible.
+
+   If a wide figure ever needs a scroller again, put it on a wrapper that has
+   no animated descendants. */
 
 /* Animated diagram strokes. A dashed SVG path whose dashoffset shifts reads
    as flow — it turns a drawn arrow into a direction. Pure CSS, so lesson
@@ -168,6 +175,160 @@ mark {
 @keyframes flow-dash {
   to {
     stroke-dashoffset: -22;
+  }
+}
+
+/* --- Diagrams that build themselves --------------------------------------
+
+   A diagram that assembles in front of you explains its own order: which
+   part is the cause, which is the consequence. A static one leaves the
+   reader to work that out.
+
+   Every effect declares TWO timelines:
+
+   1. The base rule is time-based and fires on page load. Universal, and the
+      fallback for anything that lacks scroll timelines.
+   2. The @supports block re-points the same animation at view(), so it runs
+      against the figure's own scroll position instead.
+
+   The second is what makes this usable. Without a scroll timeline, a figure
+   below the fold finishes animating before the reader ever reaches it — they
+   scroll down to a drawing that has already stopped moving. That is worse
+   than no animation, because the work is invisible. view() ties progress to
+   the element entering the viewport, so it plays exactly when looked at.
+
+   Crucially this is still no JavaScript: a scroll-driven animation is a CSS
+   timeline, not a scroll listener, so lesson pages keep shipping 0 scripts
+   and hard rule 4 holds.
+
+   Under a scroll timeline animation-delay does nothing — offsets come from
+   animation-range instead. Both are set: delay staggers the load fallback,
+   range staggers the scroll version.
+
+   All of it sits inside no-preference, so motion is opt-in. A reader who
+   asked for less gets the finished drawing with nothing moving. */
+@media (prefers-reduced-motion: no-preference) {
+  .dg {
+    animation-duration: 1100ms;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.22, 0.7, 0.3, 1);
+    /* Scale and translate about the element's own bounds, not the whole
+       viewBox — without this every bar grows from the canvas corner. */
+    transform-box: fill-box;
+  }
+  .dg-fade {
+    animation-name: dg-fade;
+  }
+  .dg-grow {
+    animation-name: dg-grow;
+    transform-origin: 50% 100%;
+  }
+  .dg-drop {
+    animation-name: dg-grow;
+    transform-origin: 50% 0%;
+  }
+  .dg-wipe {
+    animation-name: dg-wipe;
+    transform-origin: 0% 50%;
+  }
+  /* The backlog filling up. Slower than the rest: this one is the argument
+     of the chart, not decoration. */
+  .dg-fill {
+    animation-name: dg-fill;
+    animation-duration: 2200ms;
+    animation-timing-function: cubic-bezier(0.35, 0, 0.4, 1);
+  }
+  .dg-1 {
+    animation-delay: 140ms;
+  }
+  .dg-2 {
+    animation-delay: 300ms;
+  }
+  .dg-3 {
+    animation-delay: 460ms;
+  }
+  .dg-4 {
+    animation-delay: 620ms;
+  }
+
+  /* The surface never settles. This one stays on the document timeline even
+     when the rise is scroll-driven — a liquid that freezes when you stop
+     scrolling reads as a bug, not as liquid. Translating by exactly one
+     wavelength (76 user units) lands on an identical frame, so the infinite
+     loop has no visible seam. */
+  .dg-wave {
+    animation: dg-wave 2.6s linear infinite;
+    transform-box: fill-box;
+  }
+
+  @supports (animation-timeline: view()) {
+    .dg {
+      animation-timeline: view();
+      animation-duration: auto;
+      animation-delay: 0s;
+      animation-range: entry 15% cover 35%;
+    }
+    .dg-1 {
+      animation-range: entry 20% cover 32%;
+    }
+    .dg-2 {
+      animation-range: entry 28% cover 40%;
+    }
+    .dg-3 {
+      animation-range: entry 36% cover 48%;
+    }
+    .dg-4 {
+      animation-range: entry 44% cover 56%;
+    }
+    /* A long range on purpose: the reader scrubs the backlog up themselves
+       as they scroll, which is the point being made. */
+    .dg-fill {
+      animation-range: entry 20% cover 65%;
+    }
+  }
+}
+
+@keyframes dg-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dg-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes dg-wipe {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+/* 140 clears the 130-unit vessel, so it starts genuinely empty. */
+@keyframes dg-fill {
+  from {
+    transform: translateY(140px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes dg-wave {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(76px);
   }
 }
 

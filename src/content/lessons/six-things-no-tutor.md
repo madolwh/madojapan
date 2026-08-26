@@ -27,23 +27,31 @@ skills, and one does not become the other on its own.
 **Why this is first:** it's the mistake I made for years. I could read
 comfortably and still froze when I had to write something down.
 
-<div class="chart-scroll mt-8">
+<div class="mt-8">
 <svg viewBox="0 0 340 330" class="w-full" style="max-width:30rem" role="img" aria-labelledby="d1-t d1-d">
 <title id="d1-t">The input/output loop</title>
 <desc id="d1-d">Input feeds output, and output reveals the gaps that send you back to input. Most self-learners only ever run the input half — reading and listening — and never close the loop by producing something.</desc>
+<g class="dg dg-fade">
 <text x="170" y="22" text-anchor="middle" font-size="12" fill="#71717a">understanding</text>
 <rect x="55" y="36" width="230" height="74" fill="none" stroke="#0a0a0a" stroke-width="2"/>
 <text x="170" y="72" text-anchor="middle" font-size="22" font-weight="700" fill="#0a0a0a">INPUT</text>
 <text x="170" y="95" text-anchor="middle" font-size="12" fill="#71717a">reading, listening — daily</text>
+</g>
+<g class="dg dg-drop dg-1">
 <path d="M170,110 L170,152" stroke="#0a0a0a" stroke-width="2" fill="none"/>
 <polygon points="170,164 163,150 177,150" fill="#0a0a0a"/>
+</g>
+<g class="dg dg-fade dg-2">
 <rect x="55" y="166" width="230" height="74" fill="none" stroke="#0a0a0a" stroke-width="2"/>
 <text x="170" y="202" text-anchor="middle" font-size="22" font-weight="700" fill="#0a0a0a">OUTPUT</text>
 <text x="170" y="225" text-anchor="middle" font-size="12" fill="#71717a">writing, speaking — weekly</text>
 <text x="170" y="262" text-anchor="middle" font-size="12" fill="#71717a">producing</text>
+</g>
+<g class="dg dg-fade dg-3">
 <path class="flow-dash" d="M55,203 C 16,203 16,73 49,73" stroke="#d90000" stroke-width="2" fill="none" stroke-dasharray="6 5"/>
 <polygon points="59,73 45,66 45,80" fill="#d90000"/>
 <text x="170" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#d90000">the half most people never close</text>
+</g>
 </svg>
 </div>
 
@@ -54,8 +62,8 @@ fifty radicals will decompose most kanji you meet into three or four parts you
 already know.
 
 <div class="mt-8 mb-8">
-<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px"><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:36px;font-weight:700;line-height:1">語</span><span style="font-size:11px;color:#71717a">result</span></span><span style="margin-top:16px;font-size:20px;color:#71717a">=</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">言</span><span style="font-size:11px;color:#71717a">speech</span></span><span style="margin-top:16px;font-size:20px;color:#71717a">+</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">五</span><span style="font-size:11px;color:#71717a">five</span></span><span style="margin-top:16px;font-size:20px;color:#71717a">+</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">口</span><span style="font-size:11px;color:#71717a">mouth</span></span></div>
-<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;margin-top:22px"><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:36px;font-weight:700;line-height:1">休</span><span style="font-size:11px;color:#71717a">result</span></span><span style="margin-top:16px;font-size:20px;color:#71717a">=</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">亻</span><span style="font-size:11px;color:#71717a">person</span></span><span style="margin-top:16px;font-size:20px;color:#71717a">+</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">木</span><span style="font-size:11px;color:#71717a">tree</span></span></div>
+<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px"><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:36px;font-weight:700;line-height:1">語</span><span style="font-size:11px;color:#71717a">result</span></span><span style="margin-top:16px;font-size:20px;color:#71717a" class="dg dg-fade dg-1">=</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade dg-1"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">言</span><span style="font-size:11px;color:#71717a">speech</span></span><span style="margin-top:16px;font-size:20px;color:#71717a" class="dg dg-fade dg-2">+</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade dg-2"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">五</span><span style="font-size:11px;color:#71717a">five</span></span><span style="margin-top:16px;font-size:20px;color:#71717a" class="dg dg-fade dg-3">+</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade dg-3"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">口</span><span style="font-size:11px;color:#71717a">mouth</span></span></div>
+<div style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:8px;margin-top:22px"><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:36px;font-weight:700;line-height:1">休</span><span style="font-size:11px;color:#71717a">result</span></span><span style="margin-top:16px;font-size:20px;color:#71717a" class="dg dg-fade dg-1">=</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade dg-1"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">亻</span><span style="font-size:11px;color:#71717a">person</span></span><span style="margin-top:16px;font-size:20px;color:#71717a" class="dg dg-fade dg-2">+</span><span style="display:inline-flex;flex-direction:column;align-items:center;gap:5px" class="dg dg-fade dg-2"><span lang="ja" style="display:flex;align-items:center;justify-content:center;width:58px;height:58px;background:#ffea93;font-size:32px;font-weight:700;line-height:1">木</span><span style="font-size:11px;color:#71717a">tree</span></span></div>
 </div>
 
 Then build a story from the parts. 休 is 亻 (person) + 木 (tree) — a person
@@ -117,30 +125,37 @@ does the boring part. I still have to sit with each card until it sticks.</p>
 <div style="padding:14px 0;border-bottom:1px solid #e4e4e7"><span lang="ja" style="font-size:18px;font-weight:700">〜かねない</span><span style="display:block;margin-top:4px;font-size:15px;color:#71717a">might well ~ — used for a risk of something bad happening</span></div>
 </div>
 
-<div class="chart-scroll mt-8">
+<div class="mt-8">
 <svg viewBox="0 0 340 380" class="w-full" style="max-width:30rem" role="img" aria-labelledby="d3-t d3-d">
 <title id="d3-t">Twenty cards a day versus the four hundred card cliff</title>
 <desc id="d3-d">A steady twenty new cards a day stays open. Letting reviews pile up toward four hundred is the point most people close the app and never come back — twenty a day is about 7,300 cards a year, more than most learners need.</desc>
+<defs>
+<clipPath id="d3-vessel"><rect x="216" y="190" width="76" height="130"/></clipPath>
+</defs>
 <text x="8" y="20" font-size="12" font-weight="700" letter-spacing="1.2" fill="#0a0a0a">TWENTY A DAY</text>
 <line x1="8" y1="88" x2="200" y2="88" stroke="#e4e4e7" stroke-width="1"/>
-<rect x="8" y="74" width="46" height="14" fill="#8db355"/>
-<rect x="66" y="74" width="46" height="14" fill="#8db355"/>
-<rect x="124" y="74" width="46" height="14" fill="#8db355"/>
+<rect class="dg dg-grow dg-1" x="8" y="74" width="46" height="14" fill="#8db355"/>
+<rect class="dg dg-grow dg-2" x="66" y="74" width="46" height="14" fill="#8db355"/>
+<rect class="dg dg-grow dg-3" x="124" y="74" width="46" height="14" fill="#8db355"/>
 <text x="31" y="106" text-anchor="middle" font-size="12" fill="#71717a">day 1</text>
 <text x="89" y="106" text-anchor="middle" font-size="12" fill="#71717a">day 2</text>
 <text x="147" y="106" text-anchor="middle" font-size="12" fill="#71717a">day 3</text>
 <text x="182" y="86" font-size="18" fill="#71717a">···</text>
 <text x="8" y="134" font-size="13" font-weight="700" fill="#8db355">stays open</text>
 <text x="8" y="176" font-size="12" fill="#71717a">let them pile up instead</text>
-<path class="flow-dash" d="M206,84 C 250,88 254,130 254,170" stroke="#d90000" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
-<polygon points="254,182 247,168 261,168" fill="#d90000"/>
-<rect x="8" y="230" width="152" height="90" fill="#ffea93"/>
-<text x="84" y="266" text-anchor="middle" font-size="21" font-weight="700" fill="#0a0a0a">7,300</text>
-<text x="84" y="288" text-anchor="middle" font-size="12" fill="#0a0a0a">cards a year</text>
-<text x="84" y="306" text-anchor="middle" font-size="12" fill="#0a0a0a">at 20 a day</text>
-<rect x="216" y="190" width="76" height="130" fill="#d90000"/>
-<text x="254" y="238" text-anchor="middle" font-size="30" font-weight="700" fill="#ffffff">400</text>
-<text x="254" y="260" text-anchor="middle" font-size="12" fill="#ffffff">reviews</text>
+<path class="flow-dash" d="M196,94 C 212,140 206,200 206,244" stroke="#d90000" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+<polygon points="212,250 198,244 200,257" fill="#d90000"/>
+<rect class="dg dg-fade dg-2" x="8" y="230" width="152" height="90" fill="#ffea93"/>
+<text class="dg dg-fade dg-3" x="84" y="266" text-anchor="middle" font-size="21" font-weight="700" fill="#0a0a0a">7,300</text>
+<text class="dg dg-fade dg-3" x="84" y="288" text-anchor="middle" font-size="12" fill="#0a0a0a">cards a year</text>
+<text class="dg dg-fade dg-3" x="84" y="306" text-anchor="middle" font-size="12" fill="#0a0a0a">at 20 a day</text>
+<text x="254" y="182" text-anchor="middle" font-size="24" font-weight="700" fill="#d90000">400</text>
+<g clip-path="url(#d3-vessel)">
+<g class="dg dg-fill">
+<path class="dg-wave" d="M140,200 Q159,190 178,200 T216,200 T254,200 T292,200 T330,200 L330,332 L140,332 Z" fill="#d90000"/>
+</g>
+</g>
+<rect x="216" y="190" width="76" height="130" fill="none" stroke="#d90000" stroke-width="2"/>
 <line x1="200" y1="320" x2="320" y2="320" stroke="#e4e4e7" stroke-width="1"/>
 <text x="254" y="344" text-anchor="middle" font-size="12" font-weight="700" fill="#d90000">app closes</text>
 <text x="254" y="362" text-anchor="middle" font-size="12" font-weight="700" fill="#d90000">for good</text>
