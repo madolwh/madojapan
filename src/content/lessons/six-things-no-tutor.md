@@ -88,22 +88,24 @@ whatever I'm actually reading — a manga page, a news article, a draft of my
 own composition — and ask for a vocab list and a grammar list out of it. It
 does the boring part. I still have to sit with each card until it sticks.</p>
 <p style="margin-top:16px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d90000">What one card looks like</p>
-<div class="chart-scroll mt-8">
-<div style="display:flex;gap:24px;min-width:520px;align-items:stretch">
-<div style="flex:1;border:1px solid #e4e4e7;padding:28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:200px">
+<div class="flipcard mt-8" style="max-width:22rem">
+<input type="checkbox" id="fc-kakugo" class="flipcard-toggle">
+<label for="fc-kakugo" class="flipcard-inner">
+<span class="flipcard-face flipcard-front" style="align-items:center;justify-content:center;text-align:center">
 <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#71717a">front</span>
-<span lang="ja" style="margin-top:18px;font-size:56px;line-height:1;font-weight:700">覚悟</span>
-<span style="margin-top:18px;font-size:13px;color:#71717a">tap or press space to flip</span>
-</div>
-<div style="flex:1;border:1px solid #e4e4e7;padding:28px 20px;display:flex;flex-direction:column;justify-content:center;min-height:200px">
+<span lang="ja" style="margin-top:auto;font-size:56px;line-height:1;font-weight:700">覚悟</span>
+<span style="margin-top:auto;font-size:13px;color:#71717a">tap, or focus and press space</span>
+</span>
+<span class="flipcard-face flipcard-back" style="justify-content:center">
 <span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#71717a">back</span>
-<span lang="ja" style="margin-top:14px;font-size:22px">かくご</span>
+<span lang="ja" style="margin-top:12px;font-size:22px">かくご</span>
 <span style="margin-top:2px;font-size:12px;letter-spacing:.15em;color:#71717a;text-transform:uppercase">kakugo</span>
-<span style="margin-top:14px;font-size:18px">mental readiness — being resigned to something hard before it happens</span>
-<span style="margin-top:6px;font-size:12px;color:#71717a">formal</span>
+<span style="margin-top:14px;font-size:17px;line-height:1.4">mental readiness — being resigned to something hard before it happens</span>
+<span style="margin-top:8px;font-size:12px;color:#71717a">formal</span>
+</span>
+</label>
 </div>
-</div>
-</div>
+<p style="margin-top:12px;font-size:13px;color:#71717a">That one is live — flip it. It is the same card the <a href="/practice">practice deck</a> serves, minus the rating buttons.</p>
 <p style="margin-top:32px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d90000">An example list, generated the same way</p>
 <p style="margin-top:6px;font-size:13px;color:#71717a">Five words and three grammar points Claude pulled from a page I was reading. This is illustrative — not part of the site's real vocab.</p>
 <div style="margin-top:10px">
@@ -163,6 +165,27 @@ visible.
 
 **Motivation is unreliable** and it will leave you somewhere around week six. A
 number you can see doesn't.
+
+<p style="margin-top:24px">The plan itself is another thing I hand to Claude. I give it the exam date,
+how many hours I actually have, and what I am weakest at — and it comes back
+with a week I can tick off. Below is a real one.</p>
+<p style="margin-top:18px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d90000">A week, generated</p>
+<div style="margin-top:10px;border-top:2px solid #0a0a0a;padding-top:4px">
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Mon</span><span style="flex:1;font-size:15px">20 new cards + one news article</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">20</span></div>
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Tue</span><span style="flex:1;font-size:15px">20 new cards + mine 5 sentences</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">25</span></div>
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Wed</span><span style="flex:1;font-size:15px">Reviews only — no new cards</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">0</span></div>
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Thu</span><span style="flex:1;font-size:15px">20 new cards + HelloTalk voice message</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">20</span></div>
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Fri</span><span style="flex:1;font-size:15px">20 new cards + mine 5 sentences</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">25</span></div>
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Sat</span><span style="flex:1;font-size:15px">Write one 300-character composition</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">1</span></div>
+<div style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span style="flex:0 0 3rem;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#71717a">Sun</span><span style="flex:1;font-size:15px">Reviews only — no new cards</span><span style="flex:0 0 auto;font-size:12px;color:#71717a;white-space:nowrap">0</span></div>
+</div>
+<p style="margin-top:12px;font-size:13px;color:#71717a">Two rest days are in there on purpose. A plan with no slack is a plan you abandon in week three.</p>
+<p style="margin-top:28px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d90000">And the thing I actually count</p>
+<p style="margin-top:6px;font-size:15px;color:#71717a">One square per day studied. Not hours, not cards — just whether I showed up.</p>
+<div style="margin-top:18px;max-width:20rem">
+<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:5px"><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:transparent;border:1px solid #e4e4e7"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:transparent;border:1px solid #e4e4e7"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:transparent;border:1px solid #e4e4e7"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span><span style="aspect-ratio:1;background:transparent;border:1px solid #e4e4e7"></span><span style="aspect-ratio:1;background:#8db355;border:1px solid #8db355"></span></div>
+<p style="margin-top:10px;font-size:13px;color:#71717a"><strong style="color:#0a0a0a">24 of 28 days</strong> · 4 missed, and the month still counts</p>
+</div>
 
 ## One thing this list can't do
 

@@ -209,3 +209,70 @@ mark {
 .lesson-body strong {
   font-weight: 700;
 }
+
+/* A genuinely working flip card with zero JavaScript. A visually-hidden
+   checkbox drives the flip, so click, tap and the native spacebar toggle all
+   work — and hard rule 4 (no client-side JS on lesson pages) stays intact.
+   The checkbox must stay focusable, so it is hidden with opacity and size
+   rather than display:none. */
+.flipcard {
+  perspective: 1200px;
+}
+.flipcard-toggle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 0;
+}
+.flipcard-inner {
+  position: relative;
+  display: block;
+  min-height: 15rem;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 340ms ease;
+}
+.flipcard-toggle:checked + .flipcard-inner {
+  transform: rotateY(180deg);
+}
+.flipcard-toggle:focus-visible + .flipcard-inner {
+  outline: 2px solid var(--color-alert);
+  outline-offset: 3px;
+}
+.flipcard-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-rule);
+  padding: 1.75rem 1.25rem;
+  backface-visibility: hidden;
+}
+.flipcard-back {
+  transform: rotateY(180deg);
+}
+
+/* Reduced motion: no rotation, the two faces cross-fade instead — the same
+   degradation the /practice deck uses. */
+@media (prefers-reduced-motion: reduce) {
+  .flipcard-inner,
+  .flipcard-toggle:checked + .flipcard-inner {
+    transform: none;
+    transition: none;
+  }
+  .flipcard-face {
+    backface-visibility: visible;
+    transition: opacity 160ms linear;
+  }
+  .flipcard-back {
+    transform: none;
+    opacity: 0;
+  }
+  .flipcard-toggle:checked + .flipcard-inner .flipcard-front {
+    opacity: 0;
+  }
+  .flipcard-toggle:checked + .flipcard-inner .flipcard-back {
+    opacity: 1;
+  }
+}
