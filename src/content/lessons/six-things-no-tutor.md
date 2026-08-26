@@ -116,6 +116,10 @@ readiness comes from the speaking, not before it.
 Free options exist: HelloTalk, language exchange apps, Discord servers. None of
 them cost anything, and all of them are uncomfortable for about two sessions.
 
+HelloTalk specifically is what moved the needle for me. Daily voice messages
+back and forth with native speakers, corrected in real time — that's the
+closest thing to a tutor I have right now, and it's free.
+
 ## 06 · Track something you can count
 
 Days studied. Compositions written. Cards reviewed. Pick one and make it
