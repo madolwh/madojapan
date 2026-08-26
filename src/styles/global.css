@@ -251,6 +251,17 @@ mark {
     animation-delay: 620ms;
   }
 
+  /* The 28-day tracker fills in a day at a time. Four fixed delay classes
+     cannot carry 28 steps, so each cell declares its own index inline as
+     --i and the delay is computed from it — one rule instead of 28.
+     Deliberately quick per step: this should read as a month going past,
+     not as 28 separate events. */
+  .dg-cell {
+    animation-name: dg-pop;
+    animation-duration: 420ms;
+    animation-delay: calc(var(--i) * 55ms);
+  }
+
   /* The surface never settles. This one stays on the document timeline even
      when the rise is scroll-driven — a liquid that freezes when you stop
      scrolling reads as a bug, not as liquid. Translating by exactly one
@@ -285,6 +296,26 @@ mark {
     .dg-fill {
       animation-range: entry 20% cover 65%;
     }
+
+    /* Must come after .dg above, which sets a flat range for everything —
+       equal specificity, so source order decides. The cover phase spans the
+       whole time the grid is on screen, which gives 28 staggered steps room
+       to play out; the entry phase alone is over too fast to read as a
+       month passing. Last cell starts at 5 + 27 x 1.2 = 37.4%. */
+    .dg-cell {
+      animation-range: cover calc(5% + var(--i) * 1.2%) cover calc(22% + var(--i) * 1.2%);
+    }
+  }
+}
+
+@keyframes dg-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
