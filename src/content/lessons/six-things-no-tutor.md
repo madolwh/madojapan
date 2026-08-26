@@ -83,6 +83,42 @@ four hundred reviews, closing it, and never going back.
 **Small and permanent** beats ambitious and abandoned. Twenty a day is seven
 thousand cards a year, which is more than you need.
 
+<p style="margin-top:24px">Where the cards come from: I don't hand-pick every word. I feed Claude
+whatever I'm actually reading — a manga page, a news article, a draft of my
+own composition — and ask for a vocab list and a grammar list out of it. It
+does the boring part. I still have to sit with each card until it sticks.</p>
+<p style="margin-top:16px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d90000">What one card looks like</p>
+<div class="chart-scroll mt-8">
+<div style="display:flex;gap:24px;min-width:520px;align-items:stretch">
+<div style="flex:1;border:1px solid #e4e4e7;padding:28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:200px">
+<span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#71717a">front</span>
+<span lang="ja" style="margin-top:18px;font-size:56px;line-height:1;font-weight:700">覚悟</span>
+<span style="margin-top:18px;font-size:13px;color:#71717a">tap or press space to flip</span>
+</div>
+<div style="flex:1;border:1px solid #e4e4e7;padding:28px 20px;display:flex;flex-direction:column;justify-content:center;min-height:200px">
+<span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#71717a">back</span>
+<span lang="ja" style="margin-top:14px;font-size:22px">かくご</span>
+<span style="margin-top:2px;font-size:12px;letter-spacing:.15em;color:#71717a;text-transform:uppercase">kakugo</span>
+<span style="margin-top:14px;font-size:18px">mental readiness — being resigned to something hard before it happens</span>
+<span style="margin-top:6px;font-size:12px;color:#71717a">formal</span>
+</div>
+</div>
+</div>
+<p style="margin-top:32px;font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d90000">An example list, generated the same way</p>
+<p style="margin-top:6px;font-size:13px;color:#71717a">Five words and three grammar points Claude pulled from a page I was reading. This is illustrative — not part of the site's real vocab.</p>
+<div style="margin-top:10px">
+<div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span lang="ja" style="flex:0 0 auto;min-width:64px;font-size:22px;font-weight:700;background:#ffea93;padding:2px 8px">覚悟</span><span lang="ja" style="flex:0 0 auto;min-width:60px;font-size:13px;color:#71717a">かくご</span><span style="flex:1;font-size:15px">mental readiness — being resigned to something hard</span></div>
+<div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span lang="ja" style="flex:0 0 auto;min-width:64px;font-size:22px;font-weight:700;background:#ffea93;padding:2px 8px">妥協</span><span lang="ja" style="flex:0 0 auto;min-width:60px;font-size:13px;color:#71717a">だきょう</span><span style="flex:1;font-size:15px">compromise, settling for less than you wanted</span></div>
+<div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span lang="ja" style="flex:0 0 auto;min-width:64px;font-size:22px;font-weight:700;background:#ffea93;padding:2px 8px">見逃す</span><span lang="ja" style="flex:0 0 auto;min-width:60px;font-size:13px;color:#71717a">みのがす</span><span style="flex:1;font-size:15px">to overlook, to let something slide</span></div>
+<div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span lang="ja" style="flex:0 0 auto;min-width:64px;font-size:22px;font-weight:700;background:#ffea93;padding:2px 8px">実感</span><span lang="ja" style="flex:0 0 auto;min-width:60px;font-size:13px;color:#71717a">じっかん</span><span style="flex:1;font-size:15px">a felt, tangible realisation — not just knowing something abstractly</span></div>
+<div style="display:flex;gap:16px;padding:14px 0;border-bottom:1px solid #e4e4e7;align-items:baseline"><span lang="ja" style="flex:0 0 auto;min-width:64px;font-size:22px;font-weight:700;background:#ffea93;padding:2px 8px">手間</span><span lang="ja" style="flex:0 0 auto;min-width:60px;font-size:13px;color:#71717a">てま</span><span style="flex:1;font-size:15px">the effort and time something costs to do properly</span></div>
+</div>
+<div style="margin-top:10px">
+<div style="padding:14px 0;border-bottom:1px solid #e4e4e7"><span lang="ja" style="font-size:18px;font-weight:700">〜わけにはいかない</span><span style="display:block;margin-top:4px;font-size:15px;color:#71717a">cannot possibly ~ — a social or moral obligation rules it out</span></div>
+<div style="padding:14px 0;border-bottom:1px solid #e4e4e7"><span lang="ja" style="font-size:18px;font-weight:700">〜ざるを得ない</span><span style="display:block;margin-top:4px;font-size:15px;color:#71717a">have no choice but to ~, cannot help but ~</span></div>
+<div style="padding:14px 0;border-bottom:1px solid #e4e4e7"><span lang="ja" style="font-size:18px;font-weight:700">〜かねない</span><span style="display:block;margin-top:4px;font-size:15px;color:#71717a">might well ~ — used for a risk of something bad happening</span></div>
+</div>
+
 <div class="chart-scroll mt-8">
 <svg viewBox="0 0 700 300" class="w-full min-w-[560px]" role="img" aria-labelledby="d3-t d3-d">
 <title id="d3-t">Twenty cards a day versus the four hundred card cliff</title>
