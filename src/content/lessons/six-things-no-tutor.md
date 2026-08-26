@@ -143,8 +143,8 @@ does the boring part. I still have to sit with each card until it sticks.</p>
 <text x="182" y="86" font-size="18" fill="#71717a">···</text>
 <text x="8" y="134" font-size="13" font-weight="700" fill="#8db355">stays open</text>
 <text x="8" y="176" font-size="12" fill="#71717a">let them pile up instead</text>
-<path class="flow-dash" d="M196,94 C 212,140 206,200 206,244" stroke="#d90000" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
-<polygon points="212,250 198,244 200,257" fill="#d90000"/>
+<path class="flow-dash" d="M200,96 C 216,132 203,168 203,205" stroke="#d90000" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
+<polygon points="216,205 203,199 203,211" fill="#d90000"/>
 <rect class="dg dg-fade dg-2" x="8" y="230" width="152" height="90" fill="#ffea93"/>
 <text class="dg dg-fade dg-3" x="84" y="266" text-anchor="middle" font-size="21" font-weight="700" fill="#0a0a0a">7,300</text>
 <text class="dg dg-fade dg-3" x="84" y="288" text-anchor="middle" font-size="12" fill="#0a0a0a">cards a year</text>
