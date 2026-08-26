@@ -50,7 +50,7 @@ Lesson frontmatter schema:
 title: string
 slug: string
 summary: string          # one sentence, shown in listings
-category: enum           # 'singlish' | 'kanji' | 'slang' | 'philosophy' | 'travel' | 'speaking'
+category: enum           # 'singlish' | 'kanji' | 'slang' | 'philosophy' | 'study' | 'travel' | 'speaking'
 level: enum              # 'beginner' | 'intermediate' | 'advanced'
 videoUrl: string?        # external link, NOT embedded
 audioUrl: string?        # local file in /public/audio
