@@ -41,7 +41,7 @@ comfortably and still froze when I had to write something down.
 <text x="170" y="202" text-anchor="middle" font-size="22" font-weight="700" fill="#0a0a0a">OUTPUT</text>
 <text x="170" y="225" text-anchor="middle" font-size="12" fill="#71717a">writing, speaking — weekly</text>
 <text x="170" y="262" text-anchor="middle" font-size="12" fill="#71717a">producing</text>
-<path d="M55,203 C 16,203 16,73 49,73" stroke="#d90000" stroke-width="2" fill="none" stroke-dasharray="6 5"/>
+<path class="flow-dash" d="M55,203 C 16,203 16,73 49,73" stroke="#d90000" stroke-width="2" fill="none" stroke-dasharray="6 5"/>
 <polygon points="59,73 45,66 45,80" fill="#d90000"/>
 <text x="170" y="300" text-anchor="middle" font-size="13" font-weight="700" fill="#d90000">the half most people never close</text>
 </svg>
@@ -132,7 +132,7 @@ does the boring part. I still have to sit with each card until it sticks.</p>
 <text x="182" y="86" font-size="18" fill="#71717a">···</text>
 <text x="8" y="134" font-size="13" font-weight="700" fill="#8db355">stays open</text>
 <text x="8" y="176" font-size="12" fill="#71717a">let them pile up instead</text>
-<path d="M206,84 C 250,88 254,130 254,170" stroke="#d90000" stroke-width="2" stroke-dasharray="5 4" fill="none"/>
+<path class="flow-dash" d="M206,84 C 250,88 254,130 254,170" stroke="#d90000" stroke-width="2" stroke-dasharray="6 5" fill="none"/>
 <polygon points="254,182 247,168 261,168" fill="#d90000"/>
 <rect x="8" y="230" width="152" height="90" fill="#ffea93"/>
 <text x="84" y="266" text-anchor="middle" font-size="21" font-weight="700" fill="#0a0a0a">7,300</text>
