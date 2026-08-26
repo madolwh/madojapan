@@ -149,6 +149,28 @@ mark {
   overscroll-behavior-x: contain;
 }
 
+/* Animated diagram strokes. A dashed SVG path whose dashoffset shifts reads
+   as flow — it turns a drawn arrow into a direction. Pure CSS, so lesson
+   pages stay script-free (hard rule 4).
+
+   The offset must be a whole multiple of the dash period or the loop visibly
+   jumps on restart: stroke-dasharray="6 5" is a period of 11, so -22 is two
+   clean cycles.
+
+   Off by default. Motion only starts if the reader has not asked for less —
+   no-preference is an explicit opt-in, not merely the absence of "reduce",
+   so a browser that reports neither stays still. */
+@media (prefers-reduced-motion: no-preference) {
+  .flow-dash {
+    animation: flow-dash 1.7s linear infinite;
+  }
+}
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
 /* Filter chips. The label is deliberately small, but min-height keeps the
    hit area at 44px — below that they are unreliable to tap on a phone. */
 .chip {
