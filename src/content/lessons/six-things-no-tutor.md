@@ -136,7 +136,3 @@ eyes on your output. A language exchange partner will do it for free.
 
 I'm doing all six of these right now, four months out from an exam I might not
 pass. You'll see the scores either way.
-
----
-
-[Download the PDF](/madojapan-study-guide.pdf)
