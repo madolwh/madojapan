@@ -221,6 +221,41 @@ includes a Latin baseline, because the search box echoes arbitrary typed input.
   `.display-lg`.
 - Avoid: warm cream + terracotta, cherry-blossom pink.
 
+## Diagrams and motion
+
+Figures are hand-authored SVG inside the markdown, or plain HTML where the
+content is really a text layout — the kanji decomposition is flex tiles, not
+a drawing, so it reflows like text. Both are fine; pick by what the thing
+actually is.
+
+**Portrait first.** Most traffic is a phone. Draw at a ~340-unit viewBox that
+fits 335px of usable width, then cap with `max-width` (30rem in prose, 34rem
+full-bleed) so desktop scales it up. Nothing gets a `min-width`.
+
+**Animation is CSS only** — hard rule 4 has no exception for motion. The
+`.dg-*` utilities in `global.css` cover fade, grow, wipe, drop, liquid fill
+and the tracker pop. Conventions worth keeping:
+
+- Every effect declares **two timelines**: a time-based rule that fires on
+  load, and an `@supports (animation-timeline: view())` block re-pointing it
+  at the element's own scroll position. Scroll-driven is the one that
+  matters — otherwise a figure below the fold finishes before the reader
+  arrives. It is still not JavaScript: `view()` is a CSS timeline, not a
+  scroll listener.
+- Under a scroll timeline `animation-delay` does nothing; offsets come from
+  `animation-range`. Set both, or the load fallback loses its stagger.
+- Stagger past four steps uses an inline `--i` index and `calc()`, not one
+  class per step — see the 28-day tracker.
+- Use the `cover` phase for long cascades. `entry` is the instant the element
+  crosses the viewport edge and is over too fast to read.
+- Everything sits inside `@media (prefers-reduced-motion: no-preference)`.
+  Motion is opt-in: that query is an explicit preference, not merely the
+  absence of `reduce`, so a browser reporting neither stays still.
+- Dash-flow offsets must be a whole multiple of the dash period, or the loop
+  visibly jumps on restart (`6 5` → period 11 → offset -22).
+
+**After any change here, confirm lesson pages still ship 0 script tags.**
+
 ## Traps that have already cost time
 
 - **Blank lines end a raw-HTML block in CommonMark.** An HTML block inside a
@@ -234,11 +269,28 @@ includes a Latin baseline, because the search box echoes arbitrary typed input.
 - **CSS Grid items default to `min-width: auto`** and won't shrink below their
   content. Wide SVGs expand the track and the page scrolls sideways. Fix goes
   on the grid *item* (`min-w-0`), not the container.
-- **Wide charts need `.chart-scroll` + a `min-w-[700px]` inner.** An 800-unit
-  viewBox squeezed to 375px renders axis labels at ~5px.
+- **Text inside a `viewBox` cannot wrap**, so every label a drawing carries
+  sets a floor on how narrow it can go. That floor is what forces landscape
+  figures. Move long captions out into HTML and the same chart drops from
+  700px to 340. Draw portrait, cap with `max-width`, never with `min-width`.
+- **An `overflow-x: auto` wrapper silently becomes a scroll container**, and
+  `view()` resolves against the nearest one. Setting overflow on one axis
+  forces the other to compute as `auto`, so a horizontal-scroll box is a
+  vertical scroll container too. If its scrollport matches its content height
+  the timeline has no range, and every animation inside holds its first frame
+  **forever** — a fade-in becomes permanently invisible. The build passes and
+  a static check looks fine. This is why `.chart-scroll` was deleted. Never
+  wrap animated content in an overflow box; check with
+  `new ViewTimeline({subject: el}).source` and expect `documentElement`.
 - **Never trust one measurement in the browser pane.** A collapsed pane
   (`innerWidth: 0`), a mid-transition `transform` read, or stale dev CSS after
   a rebuild all produce confident nonsense. Re-measure before acting.
+- **The browser pane reports `visibilityState: hidden`**, which stops frame
+  production: `ViewTimeline.currentTime` is `null` and time-based animations
+  freeze at 0. Animation cannot be watched here. Verify it by scrubbing —
+  set `animation-timeline: auto` in an injected style, then drive
+  `animation.currentTime` by hand and screenshot. Timing and feel still need
+  a real device; say so rather than implying they were checked.
 
 ## Working style
 
@@ -262,10 +314,13 @@ includes a Latin baseline, because the search box echoes arbitrary typed input.
 - Lesson 01 `kusa` — Japanese words that are insults in Chinese
 - Lesson 02 `japanese-philosophy` — 9 words
 - Lesson 03 `gyaru-flirting` — 6 phrases
-- Lesson `six-things-no-tutor` — the study guide, with 3 SVG diagrams, a
-  working CSS-only flip card, and a generated weekly plan + 28-day tracker
+- Lesson `six-things-no-tutor` — the study guide, with diagrams, a working
+  CSS-only flip card, and a generated weekly plan + 28-day tracker
 - `/research/foreign-language-effect` — 4 figures, sourced numbers
 - Poster generators for Instagram carousels (kusa, gyaru)
+- Every figure redrawn portrait — no sideways scrolling on a phone
+- Scroll-driven CSS animation across both pages: the backlog fills as
+  liquid, the tracker builds a day at a time, arrows flow
 
 ### Open decisions — mine, waiting on me
 
