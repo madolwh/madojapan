@@ -5,7 +5,7 @@ romaji: kusa
 meaning: LOL / lmao
 description: Literally "grass".
 register: slang
-# singlishEquivalent: 'optional — delete if there is none'
+# singlishEquivalent: 'optional, delete if there is none'
 chineseMeaning: Fxck
 chineseNote: >-
   In Chinese internet slang 草 (cǎo, "grass") substitutes for 肏 (cào), a

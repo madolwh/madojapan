@@ -63,7 +63,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         loadFailed = true;
         console.error('[search] could not load the Pagefind index', error);
         status.textContent =
-          'Search is unavailable here — the index is generated at build time, so it only works on a built site.';
+          'Search is unavailable here. The index is generated at build time, so it only works on a built site.';
       }
     };
 

@@ -3,7 +3,7 @@ title: Why you are braver in Japanese
 slug: foreign-language-effect
 summary: >-
   You are not imagining it. There is research on why a second language makes
-  you bolder — and one reason the research misses.
+  you bolder, and one reason the research misses.
 category: speaking
 level: intermediate
 publishedAt: 2026-08-12
@@ -12,7 +12,7 @@ vocab:
   - shinriteki-kyori
   - bogo
   - shakaiteki-jiko
-draft: true # DRAFT — Claude's prose. Read before publishing.
+draft: true # DRAFT, Claude's prose. Read before publishing.
 ---
 
 *The charts and the evidence grading live in the
@@ -22,7 +22,7 @@ Most learners notice it eventually. You say something in Japanese you would
 never say in your first language. You ask the question. You approach the
 stranger. You are, briefly, a slightly braver person.
 
-This is documented. It has a name — 外国語効果, the foreign language effect —
+This is documented. It has a name: 外国語効果, the foreign language effect,
 and about fifteen years of research behind it.
 
 ## The finding
@@ -44,7 +44,7 @@ first papers suggested.
 
 ## Three mechanisms
 
-### 1. 心理的距離 — psychological distance
+### 1. 心理的距離 · psychological distance
 
 Your 母語 was learned alongside the events that gave it weight. The word for
 *shame* arrived attached to an actual afternoon of being ashamed. Words learned
@@ -64,7 +64,7 @@ A second language will not run on autopilot. It demands conscious effort,
 which widens the gap between impulse and speech.
 
 That gap is usually described as a cost. For confidence it behaves like a
-feature — the reflexive, self-monitoring, pre-apologising phrasing that a
+feature. The reflexive, self-monitoring, pre-apologising phrasing that a
 native speaker produces without noticing simply does not have time to form.
 
 ### 3. Separation from the 社会的自己
@@ -73,7 +73,7 @@ Your first language is bound to a social role: the version of you your family
 recognises, the register you use with colleagues who have known you a decade.
 
 Japanese was not present when those roles were built. Speaking it puts you
-slightly outside the person you are expected to be — which is uncomfortable in
+slightly outside the person you are expected to be, which is uncomfortable in
 some settings and liberating in exactly the ones where you would normally
 hesitate.
 
@@ -92,7 +92,7 @@ A learner is granted a lower standard, and knows it. Errors are read as
 learning rather than as carelessness or stupidity. Nobody updates their
 opinion of your intelligence when you conjugate something wrong.
 
-That is not psychological distance. It is **reduced social accountability** —
+That is not psychological distance. It is **reduced social accountability**,
 and for speaking specifically, it is probably doing more work than any of the
 three mechanisms above.
 
@@ -103,7 +103,7 @@ keep the stakes low on purpose. Speak before you are ready. Treat the mistake
 as the price of the sentence rather than evidence about you.
 
 The confidence is real. It is just borrowed from the fact that you are allowed
-to be bad at this — so use it while the loan is open.
+to be bad at this, so use it while the loan is open.
 
 ## Sources
 

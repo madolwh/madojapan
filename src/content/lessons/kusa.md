@@ -2,10 +2,10 @@
 title: Some Japanese words are insults in Chinese
 slug: kusa
 summary: >-
-  Japanese and Chinese share many written words — some mean the same thing,
+  Japanese and Chinese share many written words. Some mean the same thing,
   some mean something completely different.
 category: slang
-level: beginner # still a guess — slang arguably isn't beginner material
+level: beginner # still a guess, slang arguably isn't beginner material
 # videoUrl: https://TODO          # optional, external link (never embedded)
 # audioUrl: /audio/kusa.mp3       # optional, must live in public/audio/
 vocab:
